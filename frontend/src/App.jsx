@@ -7,8 +7,8 @@ import Gestionar from "./pages/gestionarservicio";
 import Agregar from "./pages/agregarservicio";
 import Editar from "./pages/editarservicio";
 import Error from "./pages/error";
-import VerticalDashboard from "./components/dashboard";
 import Realizados from "./pages/serviciosrealizados";
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   const router = createBrowserRouter([
@@ -17,7 +17,7 @@ function App() {
       element: <Registro />
     },
     {
-      path: "/iniciodesesion",
+      path: "/login",
       element: <Iniciodesesion/>
     },
     {

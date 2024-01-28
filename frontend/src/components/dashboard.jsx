@@ -1,61 +1,42 @@
-import React from 'react';
+import React from "react";
+import logo from "../assets/logo.png";
 
 const VerticalDashboard = () => {
   return (
-    <div style={styles.container}>
-      <div style={styles.sidebar}>
-        <h2 style={styles.logo}>Logo</h2>
-        <nav style={styles.nav}>
-          <a href="/" style={styles.navLink}>Inicio</a>
-          <a href="/agregar" style={styles.navLink}>Agregar Servicio</a>
-          <a href="/gestionar" style={styles.navLink}>Servicios Pendientes</a>
-          <a href="/realizados" style={styles.navLink}>Servicios Realizados</a>
+    <div className="flex h-screen">
+      <div className="w-48 bg-blue-950 text-white p-4">
+        <img src={logo} className="mb-32"/>
+
+        <nav className="flex flex-col">
+          <a
+            href="/"
+            className="text-white no-underline py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+          >
+            Inicio
+          </a>
+          <a
+            href="/agregar"
+            className="text-white no-underline py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+          >
+            Agregar Servicio
+          </a>
+          <a
+            href="/gestionar"
+            className="text-white no-underline py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+          >
+            Servicios Pendientes
+          </a>
+          <a
+            href="/realizados"
+            className="text-white no-underline py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+          >
+            Servicios Realizados
+          </a>
         </nav>
       </div>
-      <div style={styles.content}>
-        {/* Contenido del dashboard */}
-      </div>
+      <div className="flex-1 p-4">{/* Contenido del dashboard */}</div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: 'flex',
-    height: '100vh',
-  },
-  sidebar: {
-    width: '200px',
-    backgroundColor: '#0b265b',
-    color: '#fff',
-    padding: '20px',
-    boxSizing: 'border-box',
-  },
-  logo: {
-    fontSize: '24px',
-    marginBottom: '20px',
-  },
-  nav: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  navLink: {
-    color: '#fff',
-    textDecoration: 'none',
-    padding: '8px',
-    marginBottom: '8px',
-    borderRadius: '4px',
-    transition: 'background-color 0.3s',
-  },
-  content: {
-    flex: '1',
-    padding: '20px',
-    boxSizing: 'border-box',
-  },
-  pageTitle: {
-    fontSize: '28px',
-    marginBottom: '20px',
-  },
 };
 
 export default VerticalDashboard;

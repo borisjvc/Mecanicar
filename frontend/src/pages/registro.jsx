@@ -1,91 +1,71 @@
-import React from 'react';
+import React from "react";
 
 function Registro() {
-    return (
-        <div style={styles.container}>
-            <h1 style={styles.title}>Registrate</h1>
-            <form style={styles.form}>
+  return (
+    <div className="mt-16 ml-200 mb-200 p-8">
+      <h1 className="font-bold text-6xl text-center text-blue-900 mb-8">
+        Registrate
+      </h1>
+      <form className="flex flex-col p-8 mx-64">
+        <label className="font-bold mb-2" htmlFor="text">
+          Usuario
+        </label>
+        <input
+          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+          type="text"
+          id="text"
+          name="text"
+          required
+        />
 
-            <label style={styles.label} htmlFor="text">
-                    Usuario:
-                </label>
-                <input style={styles.input} type="text" id="text" name="text" required />
+        <label className="font-bold mb-2" htmlFor="email">
+          Correo electrónico
+        </label>
+        <input
+          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+          type="email"
+          id="email"
+          name="email"
+          required
+        />
 
-                <label style={styles.label} htmlFor="email">
-                    Correo Electrónico:
-                </label>
-                <input style={styles.input} type="email" id="email" name="email" required />
+        <label className="font-bold mb-2" htmlFor="password">
+          Contraseña
+        </label>
+        <input
+          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+          type="password"
+          id="password"
+          name="password"
+          required
+        />
 
-                <label style={styles.label} htmlFor="password">
-                    Contraseña:
-                </label>
-                <input style={styles.input} type="password" id="password" name="password" required />
+        <label className="font-bold mb-2" htmlFor="confirmPassword">
+          Confirmar contraseña
+        </label>
+        <input
+          className="px-4 py-2 border-2 rounded-lg mb-8 border-blue-900"
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+        />
 
-                <label style={styles.label} htmlFor="password">
-                    Confirmar contraseña:
-                </label>
-                <input style={styles.input} type="password" id="password" name="password" required />
+        <button
+          className="px-16 py-2 bg-blue-900 text-white rounded-lg cursor-pointer text-xl self-center"
+          type="submit"
+        >
+          Registrarse
+        </button>
+      </form>
+      <p className="text-center mt-4">
+        ¿Ya tienes una cuenta?{" "}
+        <a href="/login" className="font-bold text-blue-800 underline">
+          Ingresa aquí
+        </a>
+      </p>
+    </div>
+  );
+}
 
-                <button style={styles.button} type="submit">
-                    Registrarse
-                </button>
-            </form>
-            <p style={styles.paragraph}>
-                ¿Ya tienes una cuenta? <a href="/iniciodesesion" style={styles.link}>Ingresa aquí</a>
-            </p>
-        </div>
-    );
-};
-
-const styles = {
-    container: {
-        backgroundColor: 'white',   
-        marginTop: '10px',
-        marginLeft: '200px',    
-        margin: '200px',
-        boxShadow: '10px #0b265b',
-    },
-    title: {
-        fontWeight: 'Bold',
-        fontSize: '70px',
-        textAlign: 'center',
-        color: '#0b265b',
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        color:'#0b265b'
-    },
-    label: {
-        marginBottom: '20px',
-        fontWeight: 'bold',
-        color: '#0b265b',
-    },
-    input: {
-        padding: '8px',
-        marginBottom: '16px',
-        border: '1px solid #0b265b',
-        borderRadius: '10px',
-    },
-    button: {
-        padding: '10px',
-        backgroundColor: '#0b265b',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        fontSize: '16px',
-    },
-    paragraph: {
-        textAlign: 'center',
-        marginTop: '16px',
-        color: '#0b265b'
-    },
-    link: {
-        color: '#0b265b',
-        textDecoration: 'none',
-        fontWeight: 'bold',
-    },
-};
-    
 export default Registro;

@@ -1,13 +1,12 @@
-import React from 'react';
-import VerticalDashboard from '../components/dashboard';
+import React from "react";
+import VerticalDashboard from "../components/dashboard";
 
 function Inicio() {
-    return (
-        <VerticalDashboard>
-
-        </VerticalDashboard>
-
-
-    );
+  return (
+    <>
+      <VerticalDashboard />
+      
+    </>
+  );
 }
 export default Inicio;
