@@ -8,7 +8,6 @@ import Agregar from "./pages/agregarservicio";
 import Editar from "./pages/editarservicio";
 import Error from "./pages/error";
 import Realizados from "./pages/serviciosrealizados";
-import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   const router = createBrowserRouter([
