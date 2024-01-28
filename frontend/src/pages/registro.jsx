@@ -3,7 +3,7 @@ import React from "react";
 function Registro() {
   return (
     <div className="mt-16 ml-200 mb-200 p-8">
-      <h1 className="font-bold text-6xl text-center text-blue-900 mb-8">
+      <h1 className="font-bold text-6xl text-center text-blue-950 mb-8">
         Registrate
       </h1>
       <form className="flex flex-col p-8 mx-64">
@@ -11,7 +11,7 @@ function Registro() {
           Usuario
         </label>
         <input
-          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
           type="text"
           id="text"
           name="text"
@@ -22,7 +22,7 @@ function Registro() {
           Correo electrónico
         </label>
         <input
-          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
           type="email"
           id="email"
           name="email"
@@ -33,7 +33,7 @@ function Registro() {
           Contraseña
         </label>
         <input
-          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+          className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
           type="password"
           id="password"
           name="password"
@@ -44,7 +44,7 @@ function Registro() {
           Confirmar contraseña
         </label>
         <input
-          className="px-4 py-2 border-2 rounded-lg mb-8 border-blue-900"
+          className="px-4 py-2 border-2 rounded-lg mb-8 border-blue-950"
           type="password"
           id="confirmPassword"
           name="confirmPassword"
@@ -52,7 +52,7 @@ function Registro() {
         />
 
         <button
-          className="px-16 py-2 bg-blue-900 text-white rounded-lg cursor-pointer text-xl self-center"
+          className="px-16 py-2 bg-blue-950 text-white rounded-lg cursor-pointer text-xl self-center hover:bg-blue-900"
           type="submit"
         >
           Registrarse

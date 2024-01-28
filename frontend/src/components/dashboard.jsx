@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";
 
-const VerticalDashboard = () => {
+function VerticalDashboard () {
   return (
     <div className="flex h-screen">
       <div className="w-1/6 bg-blue-950 text-white p-4">
@@ -19,30 +19,31 @@ const VerticalDashboard = () => {
             href="/"
             className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
           >
-            <FontAwesomeIcon icon={faHome} className="mr-2" />
+            <FontAwesomeIcon icon={faHome} className="mr-4" />
             Inicio
           </a>
           <a
             href="/agregar"
             className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
           >
-            <FontAwesomeIcon icon={faPlus} className="mr-2" />
+            <FontAwesomeIcon icon={faPlus} className="mr-4" />
             Agregar Servicio
           </a>
           <a
             href="/gestionar"
             className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
           >
-            <FontAwesomeIcon icon={faClock} className="mr-2" />
+            <FontAwesomeIcon icon={faClock} className="mr-4" />
             Servicios Pendientes
           </a>
           <a
             href="/realizados"
             className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
           >
-            <FontAwesomeIcon icon={faCheckSquare} className="mr-2" />
+            <FontAwesomeIcon icon={faCheckSquare} className="mr-4" />
             Servicios Realizados
           </a>
+          
         </nav>
       </div>
     </div>
