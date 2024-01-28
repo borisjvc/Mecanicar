@@ -1,7 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -21,7 +19,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("URL_DE_TU_BACKEND", formData);
+      const response = await axios.post("http://localhost:3001/usuarios/login", formData);
 
       // Manejar la respuesta del backend aquí.
     } catch (error) {
