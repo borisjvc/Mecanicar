@@ -1,13 +1,11 @@
 import React from 'react';
 import VerticalDashboard from '../components/dashboard';
 
-function Inicio() {
+function Realizados() {
     return (
-        <VerticalDashboard>
-
-        </VerticalDashboard>
-
-
+        <div>
+<VerticalDashboard/>
+        </div>
     );
-}
-export default Inicio;
+}   
+export default Realizados;
