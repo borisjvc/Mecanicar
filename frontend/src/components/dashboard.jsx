@@ -17,28 +17,28 @@ function VerticalDashboard () {
         <nav className="flex flex-col">
           <a
             href="/"
-            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
           >
             <FontAwesomeIcon icon={faHome} className="mr-4" />
             Inicio
           </a>
           <a
             href="/agregar"
-            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
           >
             <FontAwesomeIcon icon={faPlus} className="mr-4" />
             Agregar Servicio
           </a>
           <a
             href="/gestionar"
-            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
           >
             <FontAwesomeIcon icon={faClock} className="mr-4" />
             Servicios Pendientes
           </a>
           <a
             href="/realizados"
-            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-blue-800 hover:text-white"
+            className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
           >
             <FontAwesomeIcon icon={faCheckSquare} className="mr-4" />
             Servicios Realizados
