@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Registro from "./pages/registro";
-import Iniciodesesion from "./pages/iniciodesesion";
 import Inicio from "./pages/inicio";
+import Login from "./pages/Login";
 import Servicios from "./pages/servicios";
 import Gestionar from "./pages/gestionarservicio";
 import Agregar from "./pages/agregarservicio";
@@ -18,7 +18,7 @@ function App() {
     },
     {
       path: "/login",
-      element: <Iniciodesesion/>
+      element: <Login/>
     },
     {
       path: "/",

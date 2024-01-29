@@ -19,7 +19,10 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/usuarios/login", formData);
+      const response = await axios.post(
+        "http://localhost:3001/usuarios/login",
+        formData
+      );
 
       // Manejar la respuesta del backend aquí.
     } catch (error) {
@@ -38,7 +41,7 @@ export default function Login() {
           <label className="font-bold mb-2" htmlFor="email">
             Correo electrónico
           </label>
-          
+
           <input
             className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
             type="email"
