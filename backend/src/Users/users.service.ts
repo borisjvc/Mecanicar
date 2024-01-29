@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Usuario } from './dto/user.entity';
 import { Connection } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
+
 
 @Injectable()
 export class UsuariosService {
@@ -23,14 +25,14 @@ export class UsuariosService {
         try {
             // Verificar si ya existe un usuario con el mismo correo electrónico
             const existingUser = await queryRunner.query('SELECT * FROM Usuarios WHERE correo = ?', [email]);
-            console.log(existingUser.length);
 
             if (existingUser.length > 0) {
                 throw new Error('Ya existe un usuario con este correo electrónico.');
             }
             else {
+                const hashedPassword = await bcrypt.hash(passwrd, 10);
                 // Si no existe, proceder con la creación del usuario
-                await queryRunner.query('CALL InsertarUsuario(?, ?, ?, ?, ?)', [name, apellido, email, passwrd, rol]);
+                await queryRunner.query('CALL InsertarUsuario(?, ?, ?, ?, ?)', [name, apellido, email, hashedPassword, rol]);
                 await queryRunner.commitTransaction();
                 // Devolver el usuario creado
                 const newUser = new Usuario();
@@ -89,19 +91,26 @@ export class UsuariosService {
     }
     
 
-    async validateUser(Email: string, password: string): Promise<{ user: Usuario, token: string } | null> {
-        const result = await this.usuarioRepository.query('CALL usp_ValidateUser(?, ?)', [Email, password]);
+    async validateUser(email: string, password: string): Promise<{ access_token: string } | null> {
+        const result = await this.usuarioRepository.query('CALL usp_ValidateUser(?)', [email]);
         const user = result[0];
 
         if (user.length === 0) {
             return null;
         }
 
+        const isPasswordValid = await bcrypt.compare(password, user[0].contrasena);
+
+        if (!isPasswordValid) {
+            return null;
+        }
+
         const payload = { id: user[0].ID, username: user[0].Username, email: user[0].Email, rol: user[0].Rol };
 
-        const token = this.jwtService.sign(payload);
-
-        return { user, token };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
     }
 
 }
+

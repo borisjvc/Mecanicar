@@ -4,8 +4,9 @@ import VerticalDashboard from "../components/dashboard";
 function Inicio() {
   return (
     <>
-      <VerticalDashboard />
-      
+      <div className="flex flex-grow h-screen">
+        <VerticalDashboard />
+      </div>
     </>
   );
 }
