@@ -4,11 +4,9 @@ import VerticalDashboard from "../components/dashboard";
 function Inicio() {
   return (
     <>
-      <VerticalDashboard >
-
-        <h1 className=" mt-20 font-semibold text-5xl bg-black ">Bienvenido a Mecanicar </h1>
-
-      </VerticalDashboard>
+      <div className="flex flex-grow h-screen">
+        <VerticalDashboard />
+      </div>
     </>
   );
 }

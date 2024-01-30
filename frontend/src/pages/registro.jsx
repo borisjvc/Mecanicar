@@ -52,7 +52,7 @@ function Registro() {
         />
 
         <button
-          className="px-16 py-2 bg-blue-950 text-white rounded-lg cursor-pointer text-xl self-center"
+          className="px-16 py-2 bg-blue-950 text-white rounded-lg cursor-pointer text-xl self-center hover:bg-blue-900"
           type="submit"
         >
           Registrarse

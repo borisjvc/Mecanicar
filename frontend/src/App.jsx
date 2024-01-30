@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Registro from "./pages/registro";
-import Iniciodesesion from "./pages/iniciodesesion";
+import Iniciodesesion from "./pages/Login";
 import Inicio from "./pages/inicio";
 import Servicios from "./pages/servicios";
 import Gestionar from "./pages/gestionarservicio";
@@ -8,6 +8,7 @@ import Agregar from "./pages/agregarservicio";
 import Editar from "./pages/editarservicio";
 import Error from "./pages/error";
 import Realizados from "./pages/serviciosrealizados";
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
   const router = createBrowserRouter([

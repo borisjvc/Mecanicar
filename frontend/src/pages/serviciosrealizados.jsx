@@ -3,9 +3,11 @@ import VerticalDashboard from '../components/dashboard';
 
 function Realizados() {
     return (
-        <div>
-<VerticalDashboard/>
-        </div>
+        <>
+            <div className="flex flex-grow h-screen">
+                <VerticalDashboard />
+            </div>
+        </>
     );
-}   
+}
 export default Realizados;
