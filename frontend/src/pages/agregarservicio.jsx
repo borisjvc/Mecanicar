@@ -4,10 +4,11 @@ import VerticalDashboard from '../components/dashboard';
 function Agregar() {
     return (
         <>
-            <div className='flex flex-grow h-screen'>
-                <VerticalDashboard />
-                <h1 className=' p-20 font-semibold text-4xl'>Agrega Servicio...</h1>
-                <div className=' flex items-center'>
+            <VerticalDashboard />
+            <div className='flex flex-grow flex-col items-center'>
+
+                <h1 className=' p-20 pr-[750px]  font-semibold text-4xl'>Agrega Servicio...</h1>
+                <div className=''>
                     <form class=" w-[800px] h-[600px]">
                         <div class="mb-4">
                             <label class="block text-gray-700 text-3xl font-semibold mb-2" for="propietario">
@@ -43,7 +44,7 @@ function Agregar() {
                             <textarea id='Descripcion' name='descripcion' className=' border-2 border-blue-950 rounded-lg w-full py-4 px-3 mb-3'></textarea>
                         </div>
                         <div class="flex items-center justify-center">
-                            <button class="bg-blue-950 hover:bg-orange-500 text-white text-2xl font-semibold p-4 px-6 rounded-lg " type="onSubmit">
+                            <button className="bg-blue-950 hover:bg-orange-500 text-white text-2xl font-semibold p-4 px-6 rounded-lg " type="onSubmit">
                                 Agregar Servicio
                             </button>
                         </div>
