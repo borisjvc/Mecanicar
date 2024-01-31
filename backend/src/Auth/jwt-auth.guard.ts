@@ -1,6 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
+require('dotenv').config();
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -28,9 +29,8 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      const decoded = this.jwtService.verify(token, {secret: 'x@das87199sd@fAfasd$jifJ&DSO00ZX0C021H'});
+      const decoded = this.jwtService.verify(token, {secret: process.env.JWT_SECRET});
       request.user = decoded; // Agrega el usuario decodificado al objeto de solicitud
-
       return true;
     } catch (error) {
       return false; // El token no es válido

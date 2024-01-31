@@ -4,4 +4,5 @@ import { TrabajosService } from './servicios.service';
 @Controller('trabajos')
 export class TrabajosController {
     constructor(private readonly trabajosService: TrabajosService) { }
+    
 }
