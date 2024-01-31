@@ -6,12 +6,21 @@ import {
   faCheckSquare,
   faClock,
   faQuestionCircle,
+  faSignInAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 
 
 function VerticalDashboard() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Borrar las cookies al cerrar sesión
+    Cookies.remove("token"); 
+  };
+  
   return (
 
     <div className="w-1/6 bg-blue-950 text-white p-4 min-h-screen fixed ">
@@ -52,6 +61,14 @@ function VerticalDashboard() {
         >
           <FontAwesomeIcon icon={faQuestionCircle} className="mr-4" />
           <span className="flex-shrink">Ayuda</span>
+        </a>
+        <a
+          href="/login"
+          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mt-auto hover:bg-orange-500 hover:text-white"
+          onClick={handleLogout}
+        >
+          <FontAwesomeIcon icon={faSignInAlt} className="mr-4" />
+          <span className="flex-shrink">Cerrar Sesión</span>
         </a>
       </nav>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,14 @@ export default function Login() {
     Email: "",
     Passwrd: "",
   });
+
+  useEffect(() => {
+    // Verificar la presencia de un token al cargar el componente
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -37,7 +37,7 @@ export class UsuariosController {
             const user = await this.usuariosService.obtenerUsuarioPorID(userID);
             return user;
         } catch (error) {
-            return { message: error };
+           throw new Error(error);
         }
 
     }
@@ -67,7 +67,7 @@ export class UsuariosController {
     @UseGuards(JwtAuthGuard)
     async eliminarUsuario(@Param('id') userID: number, @Request() req) {
         const authenticatedUser = req.user;
-        
+
         if (!authenticatedUser || authenticatedUser.rol !== 1) {
             return { message: 'Permiso denegado. Solo los administradores pueden eliminar usuarios.' };
         }
