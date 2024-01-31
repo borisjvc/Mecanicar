@@ -1,8 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Email: "",
     Passwrd: "",
@@ -21,12 +23,14 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/usuarios/login",
+        "https://localhost:3001/usuarios/login",
         formData
       );
 
-      if (response.data.token)
+      if (response.data.token) {
         Cookies.set("token", response.data.token, { expires: 1 / 8 }); // 3 horas de duración
+        navigate("/");
+      }
     } catch (error) {
       console.log(formData);
       console.error("Error al enviar los datos:", error);

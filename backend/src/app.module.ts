@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosController } from './Users/users.controller';
 import { UsuariosModule } from './Users/users.module';
+import { JwtAuthGuard } from './Auth/jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -16,6 +18,6 @@ import { UsuariosModule } from './Users/users.module';
       synchronize: true
     }), UsuariosModule],
   controllers: [UsuariosController],
-  providers: [],
+  providers: [JwtService,JwtAuthGuard],
 }) 
 export class AppModule { }

@@ -91,7 +91,7 @@ export class UsuariosService {
     }
     
 
-    async validateUser(email: string, password: string): Promise<{ access_token: string } | null> {
+    async findByEmail(email: string, password: string): Promise<{ access_token: string } | null> {
         const result = await this.usuarioRepository.query('CALL usp_ValidateUser(?)', [email]);
         const user = result[0];
 
