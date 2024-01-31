@@ -10,6 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import Cookies from "js-cookie";
+
 
 function VerticalDashboard() {
   const navigate = useNavigate();
