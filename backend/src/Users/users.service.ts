@@ -29,6 +29,7 @@ export class UsuariosService {
             if (existingUser.length > 0) {
                 throw new Error('Ya existe un usuario con este correo electrónico.');
             }
+
             else {
                 const hashedPassword = await bcrypt.hash(passwrd, 10);
                 // Si no existe, proceder con la creación del usuario
@@ -105,8 +106,7 @@ export class UsuariosService {
             return null;
         }
 
-        const payload = { id: user[0].ID, username: user[0].Username, email: user[0].Email, rol: user[0].Rol };
-
+        const payload = { id: user[0].idUsuario, name: user[0].nombre, email: user[0].correo, rol: user[0].rol };
         return {
             access_token: this.jwtService.sign(payload),
         };
