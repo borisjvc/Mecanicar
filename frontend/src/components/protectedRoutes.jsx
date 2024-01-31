@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-const ProtectedRoute = ({ element, path }) => {
+const ProtectedRoute = ({ element, path, requiredRoles }) => {
   const [isAuthenticated, setAuthenticated] = useState(false);
+  const [userRoles, setUserRoles] = useState(null);
   const navigate = useNavigate();
   const token = Cookies.get();
 
@@ -24,6 +25,8 @@ const ProtectedRoute = ({ element, path }) => {
         // Si la respuesta es exitosa, el token es válido
         if (response.status === 200) {
           setAuthenticated(true);
+          console.log(response.data)
+          setUserRoles(response.data.Rol); // Asume que el servidor envía los roles en la respuesta
         }
       } catch (error) {
         console.error("Error al validar el token", error);
@@ -35,7 +38,12 @@ const ProtectedRoute = ({ element, path }) => {
     checkAuth();
   }, [token, navigate]);
 
-  return isAuthenticated ? element : null;
+  // Función para verificar si el usuario tiene roles requeridos
+  const hasRequiredRoles = () => {
+    return requiredRoles.some(role => userRoles.includes(role));
+  };
+
+  return isAuthenticated && hasRequiredRoles() ? element : null;
 };
 
 export default ProtectedRoute;

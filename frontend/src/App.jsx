@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Registro from "./pages/registro";
 import Inicio from "./pages/inicio";
@@ -11,11 +12,13 @@ import Realizados from "./pages/serviciosrealizados";
 import ProtectedRoute from "./components/protectedRoutes";
 import 'semantic-ui-css/semantic.min.css';
 
+
+//requiredRoles 1 es administrador, 0 es mecánico
 function App() {
   const router = createBrowserRouter([
     {
       path: "/registro",
-      element: <ProtectedRoute element={<Registro />} path="/registro" />,
+      element: <ProtectedRoute element={<Registro />} path="/registro" requiredRoles={[1]} />,
     },
     {
       path: "/login",
@@ -27,23 +30,23 @@ function App() {
     },
     {
       path: "/servicios",
-      element: <ProtectedRoute element={<Servicios />} path="/servicios" />,
+      element: <ProtectedRoute element={<Servicios />} path="/servicios" requiredRoles={[0, 1]} />,
     },
     {
       path: "/gestionar",
-      element: <ProtectedRoute element={<Gestionar />} path="/gestionar" />,
+      element: <ProtectedRoute element={<Gestionar />} path="/gestionar" requiredRoles={[1]} />,
     },
     {
       path: "/editar",
-      element: <ProtectedRoute element={<Editar />} path="/editar" />,
+      element: <ProtectedRoute element={<Editar />} path="/editar" requiredRoles={[1]} />,
     },
     {
       path: "/agregar",
-      element: <ProtectedRoute element={<Agregar />} path="/agregar" />,
+      element: <ProtectedRoute element={<Agregar />} path="/agregar" requiredRoles={[1]} />,
     },
     {
       path: "/realizados",
-      element: <ProtectedRoute element={<Realizados />} path="/realizados" />,
+      element: <ProtectedRoute element={<Realizados />} path="/realizados" requiredRoles={[0, 1]} />,
     },
     {
       path: "/*",
