@@ -5,9 +5,10 @@ import {
   faPlus,
   faCheckSquare,
   faClock,
+  faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../assets/logo.png";
-import Servicios from "../pages/servicios";
+
 
 
 function VerticalDashboard() {
@@ -19,37 +20,43 @@ function VerticalDashboard() {
       <nav className="flex flex-col text-wrap">
         <a
           href="/"
-          className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
+          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
         >
           <FontAwesomeIcon icon={faHome} className="mr-4" />
-          Inicio
+          <span className="flex-shrink">Inicio</span>
         </a>
         <a
           href="/agregar"
-          className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
+          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
         >
           <FontAwesomeIcon icon={faPlus} className="mr-4" />
-          Agregar Servicio
+          <span className="flex-shrink">Agregar Servicio</span>
         </a>
         <a
-          href="/servicios"
-          className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
+          href="/gestionar"
+          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
         >
           <FontAwesomeIcon icon={faClock} className="mr-4" />
-          Servicios Pendientes
+          <span className="flex-shrink">Servicios Pendientes</span>
         </a>
         <a
           href="/realizados"
-          className="text-white no-underline flex items-center py-6 px-4 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
+          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
         >
           <FontAwesomeIcon icon={faCheckSquare} className="mr-4" />
-          Servicios Realizados
+          <span className="flex-shrink">Servicios Realizados</span>
         </a>
-
+        <a
+          href="/ayuda"
+          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
+        >
+          <FontAwesomeIcon icon={faQuestionCircle} className="mr-4" />
+          <span className="flex-shrink">Ayuda</span>
+        </a>
       </nav>
     </div>
 
   );
-};
+}
 
 export default VerticalDashboard;
