@@ -3,7 +3,7 @@ import { VehiculoService } from './vehiculo.service';
 import { Vehiculo } from './dto/vehiculo.entity';
 import { actualizarVehiculo } from './dto/update-vehiculo.dto';
 
-@Controller('trabajos')
+@Controller('vehiculos')
 export class VehiculoController {
     constructor(private readonly vehiculoService: VehiculoService) { }
 

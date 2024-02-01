@@ -4,6 +4,8 @@ import { UsuariosController } from './Users/users.controller';
 import { UsuariosModule } from './Users/users.module';
 import { JwtAuthGuard } from './Auth/jwt-auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { VehiculoModule } from './Vehiculos/vehiculo.module';
+import { TrabajosModule } from './Trabajos/servicios.module';
 
 @Module({
   imports: [
@@ -14,9 +16,9 @@ import { JwtService } from '@nestjs/jwt';
       username: 'root',
       password: '',
       database: 'mecanicar',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/*/.entity{.ts,.js}'],
       synchronize: true
-    }), UsuariosModule],
+    }), UsuariosModule, VehiculoModule, TrabajosModule],
   controllers: [UsuariosController],
   providers: [JwtService,JwtAuthGuard],
 }) 

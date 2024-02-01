@@ -16,14 +16,7 @@ export class VehiculoService {
     }
 
     async getVehiculo(idVehiculo: number){
-        const vehiculoFound = await this.vehiculoRepository.findOne({
-            where: {
-                idVehiculo,
-            },
-        });
-        if(!vehiculoFound){
-            return new HttpException('Vehiculo no encontrado', HttpStatus.NOT_FOUND);
-        }
+        const vehiculoFound = await this.vehiculoRepository.query('CALL ObtenerVehiculoPorID (?)', [idVehiculo]);
         return vehiculoFound;
     }
 

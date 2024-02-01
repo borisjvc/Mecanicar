@@ -6,8 +6,8 @@ import { TrabajosController } from './servicios.controller';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Trabajo])],
-    controllers: [],
-    providers: [TrabajosController],
+    controllers: [TrabajosController],
+    providers: [TrabajosService],
     exports: [TrabajosService], 
 })
 export class TrabajosModule { }
