@@ -31,7 +31,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "https://localhost:3001/usuarios/login",
+        "https://localhost:3001/Usuarios/login",
         formData
       );
 
@@ -51,7 +51,7 @@ export default function Login() {
         <h1 className="font-bold text-6xl text-center text-blue-950 mb-8">
           Inicia sesión
         </h1>
-        <form className="flex flex-col p-16 mx-64" onSubmit={handleSubmit}>
+        <form className="flex flex-col p-16 mx-[500px]" onSubmit={handleSubmit}>
           <label className="font-bold mb-2">Correo electrónico</label>
 
           <input

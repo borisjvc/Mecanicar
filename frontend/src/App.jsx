@@ -9,7 +9,7 @@ import Agregar from "./pages/agregarservicio";
 import Editar from "./pages/editarservicio";
 import Error from "./pages/error";
 import Realizados from "./pages/serviciosrealizados";
-
+import ProtectedRoute from "./components/protectedRoutes";
 
 //requiredRoles 1 es administrador, 0 es mecánico
 function App() {
@@ -20,7 +20,7 @@ function App() {
     },
     {
       path: "/login",
-      element: <Login />,
+      element: <Login />, 
     },
     {
       path: "/",

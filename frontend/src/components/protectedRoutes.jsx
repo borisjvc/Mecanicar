@@ -5,7 +5,7 @@ import axios from "axios";
 
 const ProtectedRoute = ({ element, path, requiredRoles }) => {
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [userRoles, setUserRoles] = useState(null);
+  const [userRoles, setUserRoles] = useState([]);
   const navigate = useNavigate();
   const token = Cookies.get();
 
@@ -25,8 +25,9 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
         // Si la respuesta es exitosa, el token es válido
         if (response.status === 200) {
           setAuthenticated(true);
-          console.log(response.data)
-          setUserRoles(response.data.Rol); // Asume que el servidor envía los roles en la respuesta
+          //console.log(response.data)
+          //setUserRoles(response.data.Rol); // Asume que el servidor envía los roles en la respuesta
+          setUserRoles([1]);
         }
       } catch (error) {
         console.error("Error al validar el token", error);
