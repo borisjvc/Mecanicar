@@ -3,6 +3,8 @@ export class Trabajo{
 
     descripcion: string;
 
+    costoMaterial: number;
+
     tipoTrabajo: string;
 
     estadoVehiculo: string;

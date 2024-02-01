@@ -30,6 +30,11 @@ export class UsuariosController {
         }
     }
 
+    @Get('validateToken')
+    @UseGuards(JwtAuthGuard)
+    validateToken(@Request() req) {
+        return { success: true, user: req.user }; // req.user contiene la información del usuario decodificada
+    }
     @Get(':id')
     @UseGuards(JwtAuthGuard)
     async obtenerUsuarioPorID(@Param('id') userID: number) {
@@ -87,9 +92,4 @@ export class UsuariosController {
         return { token: user.access_token };
     }
 
-    @Get('validateToken')
-    @UseGuards(JwtAuthGuard)
-    validateToken() {
-      return { success: true }; // req.user contiene la información del usuario decodificada
-    }
 }

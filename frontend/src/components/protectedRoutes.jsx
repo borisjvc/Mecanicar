@@ -18,16 +18,15 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
           {
             headers: {
               Authorization: "Bearer " + token.token,
-            }
+            },
           }
         );
 
         // Si la respuesta es exitosa, el token es válido
         if (response.status === 200) {
           setAuthenticated(true);
-          //console.log(response.data)
-          //setUserRoles(response.data.Rol); // Asume que el servidor envía los roles en la respuesta
-          setUserRoles([1]);
+          setUserRoles(response.data.user.rol);
+          //setUserRoles([1]);
         }
       } catch (error) {
         console.error("Error al validar el token", error);
@@ -41,9 +40,11 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
 
   // Función para verificar si el usuario tiene roles requeridos
   const hasRequiredRoles = () => {
-    return requiredRoles.some(role => userRoles.includes(role));
+    if (userRoles === 1)
+      return true;
+    else
+      navigate("/login}");
   };
-
   return isAuthenticated && hasRequiredRoles() ? element : null;
 };
 

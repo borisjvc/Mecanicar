@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as fs from 'fs';
 
+
 const httpsOptions = {
   key: fs.readFileSync('./secrets/cert.key', 'utf8'),
   cert: fs.readFileSync('./secrets/cert.crt', 'utf8'),
