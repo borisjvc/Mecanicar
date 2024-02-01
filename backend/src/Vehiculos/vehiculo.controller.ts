@@ -18,8 +18,8 @@ export class VehiculoController {
     }
 
     @Post()
-    crearVehiculo(@Body() newVehiculo: Vehiculo){
-        return this.vehiculoService.crearVehiculo(newVehiculo);
+    crearVehiculo(@Body('nombre') nombre: string,@Body('marca') marca: string, @Body('modelo') modelo: string,@Body('placas') placas: string){
+        return this.vehiculoService.crearVehiculo(nombre, marca, modelo, placas);
     }
 
     @Delete(':id')

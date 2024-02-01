@@ -27,12 +27,16 @@ function App() {
       ),
     },
     {
-      path: "/login",
-      element: <Login />, 
+      path: "/inicio",
+      element: <ProtectedRoute
+        element={<Inicio />}
+        path="/inicio"
+        requiredRoles={[1]}
+      />,
     },
     {
       path: "/",
-      element: <Inicio />,
+      element: <Login />,
     },
     {
       path: "/servicios",

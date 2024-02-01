@@ -14,7 +14,7 @@ export default function Login() {
     // Verificar la presencia de un token al cargar el componente
     const token = Cookies.get("token");
     if (token) {
-      navigate("/");
+      navigate("/inicio");
     }
   }, [navigate]);
 
@@ -37,7 +37,7 @@ export default function Login() {
 
       if (response.data.token) {
         Cookies.set("token", response.data.token, { expires: 1 / 8 }); // 3 horas de duración
-        navigate("/");
+        navigate("/inicio");
       }
     } catch (error) {
       console.log(formData);
@@ -80,12 +80,6 @@ export default function Login() {
             Iniciar sesión
           </button>
         </form>
-        <p className="text-center mt-4 mb-6">
-          ¿Olvidaste tu contraseña?{" "}
-          <a href="/recuperar" className="font-bold text-blue-800 underline">
-            Recupérala
-          </a>
-        </p>
       </div>
     </>
   );

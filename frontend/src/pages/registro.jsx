@@ -77,11 +77,11 @@ export default function Registro() {
     <>
       <div className="flex h-screen">
         <VerticalDashboard />
-        <div className="flex-grow mt-16 mb-200 text">
+        <div className="flex-grow mt-16">
           <h1 className="font-bold text-6xl text-center text-blue-950 mb-8">
             Registrar nuevo usuario
           </h1>
-          <form className="flex flex-col p-8 mx-64" onSubmit={handleRegistro}>
+          <form className="flex flex-col p-48 mx-64" onSubmit={handleRegistro}>
             <label className="font-bold mb-2">Nombre</label>
             <input
               className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"

@@ -65,7 +65,7 @@ function VerticalDashboard() {
           <span className="flex-shrink">Ayuda</span>
         </a>
         <a
-          href="/login"
+          href="/"
           className="text-white no-underline flex items-center py-4 px-2 rounded-lg mt-auto hover:bg-orange-500 hover:text-white"
           onClick={handleLogout}
         >

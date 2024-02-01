@@ -42,7 +42,7 @@ export class UsuariosController {
             const user = await this.usuariosService.obtenerUsuarioPorID(userID);
             return user;
         } catch (error) {
-           throw new Error(error);
+            throw new Error(error);
         }
 
     }

@@ -31,7 +31,7 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
       } catch (error) {
         console.error("Error al validar el token", error);
         setAuthenticated(false);
-        navigate("/login"); // Redireccionar a la página de inicio de sesión
+        navigate("/"); // Redireccionar a la página de inicio de sesión
       }
     };
 
@@ -43,7 +43,7 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
     if (userRoles === 1)
       return true;
     else
-      navigate("/login}");
+      navigate("/");
   };
   return isAuthenticated && hasRequiredRoles() ? element : null;
 };

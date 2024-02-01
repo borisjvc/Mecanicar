@@ -20,17 +20,10 @@ export class VehiculoService {
         return vehiculoFound;
     }
 
-    async crearVehiculo(nombre: Vehiculo){
-        const vehiculoFound = await this.vehiculoRepository.findOne({
-            where: {
-                propNombre: nombre.propNombre
-            }
-        })
-        if(vehiculoFound){
-            return new HttpException('Vehiculo ya existente', HttpStatus.CONFLICT)
-        }
-        const newVehiculo = this.vehiculoRepository.create(nombre);
-        return this.vehiculoRepository.save(newVehiculo)
+    async crearVehiculo(nombre: string, marca: string, modelo: string, placas: string){
+        const result = await this.vehiculoRepository.query('CALL insertarVehiculo (?,?,?,?)', [nombre, marca, modelo, placas])
+      
+        return result;
     }
 
     async deleteVehiculo(idVehiculo: number){
