@@ -13,7 +13,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/registro",
-      element: <ProtectedRoute element={<Registro />} path="/registro" />,
+      element: <Registro />,
     },
     {
       path: "/login",
@@ -25,23 +25,23 @@ function App() {
     },
     {
       path: "/servicios",
-      element: <ProtectedRoute element={<Servicios />} path="/servicios" />,
+      element: <Servicios />,
     },
     {
       path: "/gestionar",
-      element: <ProtectedRoute element={<Gestionar />} path="/gestionar" />,
+      element: <Gestionar/>,
     },
     {
       path: "/editar",
-      element: <ProtectedRoute element={<Editar />} path="/editar" />,
+      element: <Editar/>,
     },
     {
       path: "/agregar",
-      element: <ProtectedRoute element={<Agregar />} path="/agregar" />,
+      element: <Agregar />,
     },
     {
       path: "/realizados",
-      element: <ProtectedRoute element={<Realizados />} path="/realizados" />,
+      element: <Realizados />,
     },
     {
       path: "/*",

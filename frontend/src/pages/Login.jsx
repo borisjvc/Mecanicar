@@ -2,6 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { RiEyeFill, RiEyeOffFill } from 'react-icons/ri';
+import logo from "../assets/logo.png";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -9,6 +11,7 @@ export default function Login() {
     Email: "",
     Passwrd: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,53 +35,78 @@ export default function Login() {
         navigate("/");
       }
     } catch (error) {
-      console.log(formData);
       console.error("Error al enviar los datos:", error);
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <>
-      <div className="mt-16 ml-200 mb-200 p-8">
-        <h1 className="font-bold text-6xl text-center text-blue-950 mb-8">
-          Inicia sesión
-        </h1>
-        <form className="flex flex-col p-16 mx-64" onSubmit={handleSubmit}>
-          <label className="font-bold mb-2">Correo electrónico</label>
-
-          <input
-            className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
-            type="email"
-            id="Email"
-            name="Email"
-            required
-            onChange={handleInputChange}
-          />
-
-          <label className="font-bold mb-2">Contraseña</label>
-          <input
-            className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
-            type="password"
-            id="Passwrd"
-            name="Passwrd"
-            required
-            onChange={handleInputChange}
-          />
-
-          <button
-            className="mt-4 px-16 py-2 bg-blue-950 text-white rounded-lg cursor-pointer text-xl self-center hover:bg-blue-900"
-            type="submit"
-          >
-            Iniciar sesión
-          </button>
-        </form>
-        <p className="text-center mt-4 mb-6">
-          ¿Olvidaste tu contraseña?{" "}
-          <a href="/recuperar" className="font-bold text-blue-800 underline">
-            Recupérala
-          </a>
-        </p>
+    <div className="flex min-h-screen justify-center items-center">
+      <div className="w-full max-w-md">
+        <div className="mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+          <div className="p-8">
+            <img src={logo} className="mx-auto w-24 h-24 rounded-lg ring-2 ring-gray-300" alt="Logo" />
+            <h2 className="mt-10 text-center text-3xl font-bold leading-9 text-azulito">Inicia Sesión</h2>
+          </div>
+          <div className="px-8 py-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Correo Electrónico</label>
+                <div className="mt-2">
+                  <input
+                    type="email"
+                    id="Email"
+                    name="Email"
+                    required
+                    onChange={handleInputChange}
+                    className="block w-full mt-1 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-miniazul focus:border-azulito text-sm"
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                  <div className="text-sm">
+                    <a href="#" className="text-azulito hover:text-blue-800">Recupera tu contraseña</a>
+                  </div>
+                </div>
+                <div className="mt-2 relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    id="Passwrd"
+                    name="Passwrd"
+                    required
+                    onChange={handleInputChange}
+                    className="block w-full mt-1 px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-miniazul focus:border-azulito text-sm"
+                  />
+                  <span className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    {showPassword ? (
+                      <RiEyeOffFill className="h-5 w-5 text-gray-400 cursor-pointer" onClick={togglePasswordVisibility} />
+                    ) : (
+                      <RiEyeFill className="h-5 w-5 text-gray-400 cursor-pointer" onClick={togglePasswordVisibility} />
+                    )}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full rounded-md bg-azulito px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-azulito"
+                >
+                  Iniciar Sesión
+                </button>
+              </div>
+            </form>
+            <p className="mt-6 text-center text-sm text-gray-500">
+              ¿Deseas registrarte?{' '}
+              <a href="/registro" className="text-azulito hover:text-blue-900">Hazlo aquí</a>
+            </p>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
