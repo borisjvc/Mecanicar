@@ -16,6 +16,11 @@ export class VehiculoController {
         return this.vehiculoService.obtenerVehiculos();
     }
 
+    @Post()
+    crearVehiculo(@Body('nombre') nombre: string, @Body('marca') marca: string, @Body('modelo') modelo: string, @Body('placas') placas: string){
+        return this.vehiculoService.crearVehiculo(nombre, marca, modelo, placas)
+    }
+
     @Put(':idVehiculo')
     actualizarVehiculo(@Param('idVehiculo', ParseIntPipe) idVehiculo: number, @Body() body: any) {
         const { propNombre, marca, modelo, placas } = body;

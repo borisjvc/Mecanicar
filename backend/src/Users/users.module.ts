@@ -15,6 +15,6 @@ require('dotenv').config();
     })],
     controllers: [UsuariosController],
     providers: [UsuariosService],
-    exports: [UsuariosService], 
+    exports: [], 
 })
 export class UsuariosModule { }
