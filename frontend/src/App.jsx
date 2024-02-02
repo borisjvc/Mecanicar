@@ -31,7 +31,7 @@ function App() {
       element: <ProtectedRoute
         element={<Inicio />}
         path="/inicio"
-        requiredRoles={[1]}
+        requiredRoles={[0, 1]}
       />,
     },
     {
@@ -54,7 +54,7 @@ function App() {
         <ProtectedRoute
           element={<Gestionar />}
           path="/gestionar"
-          requiredRoles={[1]}
+          requiredRoles={[0, 1]}
         />
       ),
     },
@@ -64,7 +64,7 @@ function App() {
         <ProtectedRoute
           element={<Editar />}
           path="/editar"
-          requiredRoles={[1]}
+          requiredRoles={[0, 1]}
         />
       ),
     },
@@ -74,7 +74,7 @@ function App() {
         <ProtectedRoute
           element={<Agregar />}
           path="/agregar"
-          requiredRoles={[1]}
+          requiredRoles={[0, 1]}
         />
       ),
     },

@@ -7,6 +7,6 @@ export class Trabajo{
 
     tipoTrabajo: string;
 
-    estadoVehiculo: string;
+    estadoVehiculo: boolean;
     
 }

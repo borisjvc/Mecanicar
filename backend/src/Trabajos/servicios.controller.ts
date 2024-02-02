@@ -1,35 +1,29 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, Patch } from '@nestjs/common';
 import { TrabajosService } from './servicios.service';
-import { Trabajo } from './dto/trabajo.entity';
-import { actualizarTrabajo } from './dto/update-trabajo.dto';
+
 
 @Controller('trabajos')
 export class TrabajosController {
     constructor(private readonly trabajosService: TrabajosService) { }
 
+    @Get(':idTrabajo')
+    obtenerTrabajoPorID(@Param('idTrabajo', ParseIntPipe) idTrabajo: number) {
+        return this.trabajosService.obtenerTrabajoPorID(idTrabajo);
+    }
+
     @Get()
-    getTrabajos(): Promise<Trabajo[]>{
-        return this.trabajosService.getTrabajos();
+    obtenerTrabajos() {
+        return this.trabajosService.obtenerTrabajos();
     }
 
-    @Get(':id')
-    getTrabajo(@Param('id', ParseIntPipe) idTrabajo: number){
-        return this.trabajosService.getTrabajo(idTrabajo);
+    @Put(':idTrabajo')
+    actualizarTrabajo(@Param('idTrabajo', ParseIntPipe) idTrabajo: number, @Body() body: any) {
+        const { descripcion, costoMaterial, tipoTrabajo, estadoVehiculo } = body;
+        return this.trabajosService.actualizarTrabajo(idTrabajo, descripcion, costoMaterial, tipoTrabajo, estadoVehiculo);
     }
 
-    @Post()
-    crearTrabajo(@Body() newTrabajo: Trabajo){
-        return this.trabajosService.crearTrabajo(newTrabajo);
+    @Delete(':idTrabajo')
+    eliminarTrabajo(@Param('idTrabajo', ParseIntPipe) idTrabajo: number) {
+        return this.trabajosService.eliminarTrabajo(idTrabajo);
     }
-
-    @Delete(':id')
-    deleteTrabajo(@Param(':id', ParseIntPipe) idTrabajo: number){
-        return this.trabajosService.deleteTrabajo(idTrabajo);
-    }
-
-    @Patch(':id')
-    updateTrabajo(@Param('id', ParseIntPipe) idTrabajo: number, @Body() tipo: actualizarTrabajo){
-        return this.trabajosService.updateTrabajo(idTrabajo, tipo);
-    }
-
 }

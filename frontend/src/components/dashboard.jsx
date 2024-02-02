@@ -1,21 +1,21 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faPlus,
-  faCheckSquare,
-  faClock,
-  faQuestionCircle,
-  faSignInAlt,
-} from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import logo from "../assets/logo.png";
+import {
+  PiHouseBold,
+  PiPlusCircleBold,
+  PiHourglassHighBold ,
+  PiPoliceCarBold ,
+  PiInfoBold,
+  PiSignInBold ,
+
+} from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 
 
-
-function VerticalDashboard() {
+const VerticalDashboard = () => {
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -23,59 +23,66 @@ function VerticalDashboard() {
     Cookies.remove("token"); 
   };
   
+
   return (
-
-    <div className="w-1/6 bg-blue-950 text-white p-4 min-h-screen fixed ">
-      <img src={logo} className="mb-16 w-2/4 mx-auto" />
-
-      <nav className="flex flex-col text-wrap">
-        <a
-          href="/"
-          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
-        >
-          <FontAwesomeIcon icon={faHome} className="mr-4" />
-          <span className="flex-shrink">Inicio</span>
-        </a>
-        <a
-          href="/agregar"
-          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
-        >
-          <FontAwesomeIcon icon={faPlus} className="mr-4" />
-          <span className="flex-shrink">Agregar Servicio</span>
-        </a>
-        <a
-          href="/gestionar"
-          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
-        >
-          <FontAwesomeIcon icon={faClock} className="mr-4" />
-          <span className="flex-shrink">Servicios Pendientes</span>
-        </a>
-        <a
-          href="/realizados"
-          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
-        >
-          <FontAwesomeIcon icon={faCheckSquare} className="mr-4" />
-          <span className="flex-shrink">Servicios Realizados</span>
-        </a>
-        <a
-          href="/ayuda"
-          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mb-2 hover:bg-orange-500 hover:text-white"
-        >
-          <FontAwesomeIcon icon={faQuestionCircle} className="mr-4" />
-          <span className="flex-shrink">Ayuda</span>
-        </a>
-        <a
-          href="/"
-          className="text-white no-underline flex items-center py-4 px-2 rounded-lg mt-auto hover:bg-orange-500 hover:text-white"
-          onClick={handleLogout}
-        >
-          <FontAwesomeIcon icon={faSignInAlt} className="mr-4" />
-          <span className="flex-shrink">Cerrar Sesión</span>
-        </a>
-      </nav>
-    </div>
-
+    <>
+      <div
+        className={`bg-azulito h-full fixed lg:static w-[80%] md:w-[40%] lg:w-full "left-0" : "-left-full"
+        }`}
+      >
+        {/* Profile */}
+        <div className="flex flex-col items-center justify-center p-8 gap-2 h-[30vh]">
+        <img src={logo} className="w-20 h-20 rounded-lg ring-2 ring-gray-300"
+          />
+        </div>
+        {/* Nav */}
+        <div className="bg-azulito p-8  h-[70vh]  flex flex-col justify-between gap-8">
+          <nav className="flex flex-col gap-8">
+            <a
+              href="/inicio"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
+            >
+              <PiHouseBold /> Inicio
+            </a>
+            <a
+              href="/agregar"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
+            >
+            <PiPlusCircleBold />    Agregar Servicio
+            </a>
+            <a
+              href="/gestionar"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
+            >
+            <PiHourglassHighBold />   Servicios Pendientes
+            </a>
+            <a
+              href="/realizados"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
+            >
+            <PiPoliceCarBold />    Servicios Realizados
+            </a>
+            <a
+              href="/ayuda"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
+            >
+           <PiInfoBold /> Ayuda
+            </a>
+          </nav>
+          
+          <div className="bg-primary-900/50 text-white text- p-4 rounded-xl">
+          <a
+              href="/"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl  hover:bg-primary-900/50 transition-colors"
+              onClick={handleLogout}
+            >
+            <PiSignInBold />  Cerrar Sesión
+            </a>          
+            </div>
+        </div>
+      </div>
+    </>
   );
-}
+};
 
 export default VerticalDashboard;

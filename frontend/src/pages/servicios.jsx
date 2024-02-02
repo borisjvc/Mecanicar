@@ -4,7 +4,7 @@ import VerticalDashboard from '../components/dashboard';
 function Servicios() {
     return (
         <>
-            <VerticalDashboard />
+            {/*<VerticalDashboard />
             <div className=' flex flex-col flex-grow items-center'>
                 <h1 className=' pr-[750px] pt-20 font-semibold text-4xl'>Servicios Pendientes</h1>
 
@@ -45,22 +45,22 @@ function Servicios() {
 
                                     <tr className="">
                                         <td className="px-3 py-4">
-                                            1
+                                            
                                         </td>
                                         <td className="px-6 py-4 border-x-2 border-blue-900">
-                                            ola
+                                            
                                         </td>
                                         <td className="px-6 py-4 border-x-2 border-blue-900">
-                                            nose
+                                            
                                         </td>
                                         <td className="px-6 py-4 border-x-2 border-blue-900">
-                                            a
+                                            
                                         </td>
                                         <td className="px-6 py-4 border-x-2 border-blue-900">
-                                            lalala
+                                            
                                         </td>
                                         <td className="px-6 py-4 border-x-2 border-blue-900">
-                                            olalalala
+                                            
                                         </td>
                                         <td className="px-6 py-4">
                                             <button className="bg-blue-950 hover:bg-orange-500 text-white text-md font-semibold p-1 px-6 rounded-lg" >Visualizar </button>
@@ -75,7 +75,7 @@ function Servicios() {
 
 
                 </div>
-            </div>
+    </div}*/}
         </>
     );
 }

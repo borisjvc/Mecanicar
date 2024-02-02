@@ -19,7 +19,7 @@ import { TrabajosModule } from './Trabajos/servicios.module';
       entities: [__dirname + '/*/.entity{.ts,.js}'],
       synchronize: true
     }), UsuariosModule, VehiculoModule, TrabajosModule],
-  controllers: [UsuariosController],
+  controllers: [],
   providers: [JwtService,JwtAuthGuard],
 }) 
 export class AppModule { }

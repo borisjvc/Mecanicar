@@ -20,6 +20,7 @@ export default function Registro() {
 
   const handleRegistro = async (e) => {
     e.preventDefault();
+    console.log(formValues)
 
     if (
       !formValues.Name ||
@@ -38,8 +39,8 @@ export default function Registro() {
     try {
       // Mapear el rol. 0 es mecanico y 1 es admin
       const mappedRolValue = formValues.Rol === "Mecanico" ? 0 : 1;
-
-      await axios.post(
+ 
+      const res = await axios.post(
         "https://localhost:3001/usuarios",
         {
           ...formValues,
@@ -51,6 +52,7 @@ export default function Registro() {
           },
         }
       );
+      console.log(res);
 
       //await axios.post(`http://localhost:3001/correo/enviar`, formValues.Email);
       setSuccess(true);
@@ -120,8 +122,9 @@ export default function Registro() {
         <input
           className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
           type="password"
-          id="password"
-          name="password"
+          id="Passwrd"
+          name="Passwrd"
+          onChange={handleInputChange}
           required
         />
 

@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vehiculo } from './dto/vehiculo.entity';
-import { actualizarVehiculo } from './dto/update-vehiculo.dto';
 
 @Injectable()
 export class VehiculoService {
@@ -11,40 +10,43 @@ export class VehiculoService {
         private readonly vehiculoRepository: Repository<Vehiculo>
     ) { }
 
-    getVehiculos(){  
-        return this.vehiculoRepository.find();
+    async obtenerVehiculoPorID(idVehiculo: number){
+        try{
+            return await this.vehiculoRepository.query(`CALL ObtenerVehiculoPorID(?)`), [idVehiculo];
+        } catch(error){
+            throw new HttpException('Error al obtener el vehiculo por ID', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    async getVehiculo(idVehiculo: number){
-        const vehiculoFound = await this.vehiculoRepository.query('CALL ObtenerVehiculoPorID (?)', [idVehiculo]);
-        return vehiculoFound;
+    async obtenerVehiculos() {
+        try {
+            return await this.vehiculoRepository.query(`CALL ObtenerVehiculos()`);
+        } catch (error) {
+            throw new HttpException('Error al obtener la lista de vehículos', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    async crearVehiculo(nombre: string, marca: string, modelo: string, placas: string){
+    async crearVehiculo(nombre: string, marca: string, modelo: string, placas: string) {
         const result = await this.vehiculoRepository.query('CALL insertarVehiculo (?,?,?,?)', [nombre, marca, modelo, placas])
-      
+
         return result;
     }
 
-    async deleteVehiculo(idVehiculo: number){
-        const result = await this.vehiculoRepository.delete({idVehiculo});
-        if(result.affected === 0){
-            return new HttpException('Vehiculo no encontrado', HttpStatus.NOT_FOUND );
+    async actualizarVehiculo(idVehiculo: number, propNombre: string, marca: string, modelo: string, placas: string) {
+        try {
+            return await this.vehiculoRepository.query(`CALL ActualizarVehiculo(?, ?, ?, ?, ?)`, [idVehiculo, propNombre, marca, modelo, placas]);
+        } catch (error) {
+            throw new HttpException('Error al actualizar el vehículo', HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return result;
     }
 
-    async updateVehiculo(idVehiculo: number, nombre: actualizarVehiculo){
-        const vehiculoFound = await this.vehiculoRepository.findOne({
-            where: {
-                idVehiculo,
-            },
-        });
-        if(!vehiculoFound){
-            return new HttpException('Vehiculo no encontrado', HttpStatus.NOT_FOUND );
+    async eliminarVehiculo(idVehiculo: number) {
+        try {
+            return await this.vehiculoRepository.query(`CALL EliminarVehiculo(?)`, [idVehiculo]);
+        } catch (error) {
+            throw new HttpException('Error al eliminar el vehículo', HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        const updateVehiculo = Object.assign(vehiculoFound, nombre);
-        return this.vehiculoRepository.save(updateVehiculo);
     }
+
 
 }

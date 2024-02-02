@@ -40,7 +40,7 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
 
   // Función para verificar si el usuario tiene roles requeridos
   const hasRequiredRoles = () => {
-    if (userRoles === 1)
+    if (userRoles === requiredRoles[0] || userRoles === requiredRoles[1])
       return true;
     else
       navigate("/");
