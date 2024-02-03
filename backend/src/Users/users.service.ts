@@ -63,32 +63,30 @@ export class UsuariosService {
         return result[0];
     }
 
-    async actualizarUsuario(userID: number, name: string, apellido: string, passwrd: string, email: string, rol: number): Promise<{ success: boolean, message?: string }> {
-        //if(rol actual es admin entonces)
-        const queryRunner = this.connection.createQueryRunner();
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
+    async actualizarUsuario(userID: number, name?: string, apellido?: string, passwrd?: string, email?: string, rol?: number): Promise<{ message?: string }> {
         try {
-            const result = await queryRunner.query('CALL ActualizarUsuario(?, ?, ?, ?, ?, ?)', [userID, name, apellido, email, passwrd, rol]);
+            const hashedPassword = await bcrypt.hash(passwrd, 10);
+            const result = await this.usuarioRepository.query('CALL ActualizarUsuario(?, ?, ?, ?, ?, ?)', [userID, name, apellido, email, hashedPassword, rol]);
 
             // Verificar el resultado de la actualización
             if (result && result.affectedRows > 0) {
-                await queryRunner.commitTransaction();
-                return { success: true, message: 'Actualización exitosa' };
+                return { message: 'Actualización exitosa' };
             } else {
                 throw new Error('No se pudo actualizar el usuario.');
             }
         } catch (error) {
-            await queryRunner.rollbackTransaction();
-            return { success: false, message: error.message || 'Error al actualizar el usuario.' };
-        } finally {
-            await queryRunner.release();
+            return { message: error.message || 'Error al actualizar el usuario.' };
         }
     }
 
-    async eliminarUsuario(userID: number): Promise<void> {
-        //if(rol actual es admin entonces)
-        await this.usuarioRepository.query('CALL EliminarUsuario(?)', [userID]);
+    async eliminarUsuario(userID: number): Promise<{message: string}> {
+        try{
+            await this.usuarioRepository.query('CALL EliminarUsuario(?)', [userID]);
+            return { message: "Usuario eliminado exitosamente" }
+        }catch(error){
+            return { message: `Error eliminar al usuario ${error}` }
+        }
+        
     }
     
 

@@ -12,6 +12,7 @@ import Realizados from "./pages/serviciosrealizados";
 import ProtectedRoute from "./components/protectedRoutes";
 import Recuperar from "./pages/recuperar";
 import "semantic-ui-css/semantic.min.css";
+import Usuarios from "./pages/usuarios";
 
 //requiredRoles 1 es administrador, 0 es mecánico
 function App() {
@@ -87,6 +88,16 @@ function App() {
           requiredRoles={[0, 1]}
         />
       ),
+    },
+    {
+      path: "/usuarios",
+      element: (
+        <ProtectedRoute 
+        element={<Usuarios/>}
+        path="/usuarios"
+        requiredRoles={[1]}
+        />
+      )
     },
     {
       path: "/*",

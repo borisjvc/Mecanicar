@@ -20,7 +20,6 @@ export default function Registro() {
 
   const handleRegistro = async (e) => {
     e.preventDefault();
-    console.log(formValues)
 
     if (
       !formValues.Name ||
@@ -52,7 +51,7 @@ export default function Registro() {
           },
         }
       );
-      console.log(res);
+      console.log(res.message);
 
       //await axios.post(`http://localhost:3001/correo/enviar`, formValues.Email);
       setSuccess(true);
@@ -124,6 +123,7 @@ export default function Registro() {
           type="password"
           id="Passwrd"
           name="Passwrd"
+          minLength={8}
           onChange={handleInputChange}
           required
         />

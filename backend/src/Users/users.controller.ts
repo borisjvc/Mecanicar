@@ -13,14 +13,8 @@ export class UsuariosController {
         @Body('Apellido') apellido: string,
         @Body('Passwrd') passwrd: string,
         @Body('Email') email: string,
-        @Body('Rol') rol: number,
-        @Request() req
+        @Body('Rol') rol: number
     ) {
-        const authenticatedUser = req.user;
-
-        if (!authenticatedUser || authenticatedUser.rol !== 1) {
-            return { message: 'Permiso denegado. Solo los administradores pueden eliminar usuarios.' };
-        }
 
         try {
             const newUser = await this.usuariosService.crearUsuario(name, apellido, passwrd, email, rol);
@@ -36,6 +30,7 @@ export class UsuariosController {
     validateToken(@Request() req) {
         return { success: true, user: req.user }; // req.user contiene la información del usuario decodificada
     }
+
     @Get(':id')
     @UseGuards(JwtAuthGuard)
     async obtenerUsuarioPorID(@Param('id') userID: number) {
@@ -59,11 +54,11 @@ export class UsuariosController {
     @UseGuards(JwtAuthGuard)
     async actualizarUsuario(
         @Param('id') userID: number,
-        @Body('Name') name: string,
-        @Body('Apellido') apellido: string,
-        @Body('Passwrd') passwrd: string,
-        @Body('Email') email: string,
-        @Body('Rol') rol: number,
+        @Body('Name') name?: string,
+        @Body('Apellido') apellido?: string,
+        @Body('Passwrd') passwrd?: string,
+        @Body('Email') email?: string,
+        @Body('Rol') rol?: number,
     ) {
         const updatedUser = await this.usuariosService.actualizarUsuario(userID, name, apellido, passwrd, email, rol);
         return updatedUser;
@@ -71,15 +66,9 @@ export class UsuariosController {
 
     @Delete(':id')
     @UseGuards(JwtAuthGuard)
-    async eliminarUsuario(@Param('id') userID: number, @Request() req) {
-        const authenticatedUser = req.user;
-
-        if (!authenticatedUser || authenticatedUser.rol !== 1) {
-            return { message: 'Permiso denegado. Solo los administradores pueden eliminar usuarios.' };
-        }
-
-        await this.usuariosService.eliminarUsuario(userID);
-        return { message: 'Usuario eliminado exitosamente' };
+    async eliminarUsuario(@Param('id') userID: number) {
+        const deleted = await this.usuariosService.eliminarUsuario(userID);
+        return deleted;
     }
 
     @Post('login')

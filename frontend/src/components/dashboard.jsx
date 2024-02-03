@@ -3,16 +3,14 @@ import logo from "../assets/logo.png";
 import {
   PiHouseBold,
   PiPlusCircleBold,
-  PiHourglassHighBold ,
-  PiPoliceCarBold ,
+  PiHourglassHighBold,
+  PiPoliceCarBold,
   PiInfoBold,
-  PiSignInBold ,
-
+  PiSignInBold,
+  PiUserCircleBold,
 } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
-
 
 const VerticalDashboard = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -20,9 +18,8 @@ const VerticalDashboard = () => {
 
   const handleLogout = () => {
     // Borrar las cookies al cerrar sesión
-    Cookies.remove("token"); 
+    Cookies.remove("token");
   };
-  
 
   return (
     <>
@@ -32,7 +29,9 @@ const VerticalDashboard = () => {
       >
         {/* Profile */}
         <div className="flex flex-col items-center justify-center p-8 gap-2 h-[30vh]">
-        <img src={logo} className="w-20 h-20 rounded-lg ring-2 ring-gray-300"
+          <img
+            src={logo}
+            className="w-20 h-20 rounded-lg ring-2 ring-gray-300"
           />
         </div>
         {/* Nav */}
@@ -45,40 +44,46 @@ const VerticalDashboard = () => {
               <PiHouseBold /> Inicio
             </a>
             <a
+              href="/usuarios"
+              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
+            >
+              <PiUserCircleBold /> Usuarios
+            </a>
+            <a
               href="/agregar"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-            <PiPlusCircleBold />    Agregar Servicio
+              <PiPlusCircleBold /> Agregar Servicio
             </a>
             <a
               href="/gestionar"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-            <PiHourglassHighBold />   Servicios Pendientes
+              <PiHourglassHighBold /> Servicios Pendientes
             </a>
             <a
               href="/realizados"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-            <PiPoliceCarBold />    Servicios Realizados
+              <PiPoliceCarBold /> Servicios Realizados
             </a>
             <a
               href="/ayuda"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
             >
-           <PiInfoBold /> Ayuda
+              <PiInfoBold /> Ayuda
             </a>
           </nav>
-          
+
           <div className="bg-primary-900/50 text-white text- p-4 rounded-xl">
-          <a
+            <a
               href="/"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl  hover:bg-primary-900/50 transition-colors"
               onClick={handleLogout}
             >
-            <PiSignInBold />  Cerrar Sesión
-            </a>          
-            </div>
+              <PiSignInBold /> Cerrar Sesión
+            </a>
+          </div>
         </div>
       </div>
     </>
