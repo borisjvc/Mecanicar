@@ -1,33 +1,40 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { VehiculoService } from './vehiculo.service';
-import { Vehiculo } from './dto/vehiculo.entity';
+import { JwtAuthGuard } from 'src/Auth/jwt-auth.guard';
+
 
 @Controller('vehiculos')
 export class VehiculoController {
     constructor(private readonly vehiculoService: VehiculoService) { }
 
     @Get(':idVehiculo')
+    @UseGuards(JwtAuthGuard)
     obtenerVehiculoPorID(@Param('idVehiculo', ParseIntPipe) idVehiculo: number) {
         return this.vehiculoService.obtenerVehiculoPorID(idVehiculo);
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     obtenerVehiculos() {
         return this.vehiculoService.obtenerVehiculos();
     }
 
     @Post()
-    crearVehiculo(@Body('nombre') nombre: string, @Body('marca') marca: string, @Body('modelo') modelo: string, @Body('placas') placas: string){
-        return this.vehiculoService.crearVehiculo(nombre, marca, modelo, placas)
+    @UseGuards(JwtAuthGuard)
+    async crearVehiculo(@Body('propietario') propietario: string, @Body('marca') marca: string, @Body('modelo') modelo: string, @Body('placas') placas: string){
+        const id = await this.vehiculoService.crearVehiculo(propietario, marca, modelo, placas)
+        return id[0][0];
     }
 
     @Put(':idVehiculo')
+    @UseGuards(JwtAuthGuard)
     actualizarVehiculo(@Param('idVehiculo', ParseIntPipe) idVehiculo: number, @Body() body: any) {
-        const { propNombre, marca, modelo, placas } = body;
-        return this.vehiculoService.actualizarVehiculo(idVehiculo, propNombre, marca, modelo, placas);
+        const { propietario, marca, modelo, placas } = body;
+        return this.vehiculoService.actualizarVehiculo(idVehiculo, propietario, marca, modelo, placas);
     }
 
     @Delete(':idVehiculo')
+    @UseGuards(JwtAuthGuard)
     eliminarVehiculo(@Param('idVehiculo', ParseIntPipe) idVehiculo: number) {
         return this.vehiculoService.eliminarVehiculo(idVehiculo);
     }

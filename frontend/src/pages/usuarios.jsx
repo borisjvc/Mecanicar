@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { PiPlusBold } from "react-icons/pi";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+//agregar campo al usuario para saber si esta activo o no
 export default function Usuarios() {
   const token = Cookies.get();
   const [usuarios, setUsuarios] = useState([]);
@@ -158,7 +158,7 @@ export default function Usuarios() {
                       </td>
                       <td className="text-center py-3 space-x-2">
                         <button
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-all"
+                          className="bg-amber-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-all"
                           onClick={() => handleEditar(usuario.idUsuario)}
                         >
                            Editar

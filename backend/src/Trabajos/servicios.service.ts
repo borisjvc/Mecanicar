@@ -26,15 +26,15 @@ export class TrabajosService {
         }
     }
 
-    async crearTrabajo(descripcion: string, costoMaterial: number, tipoTrabajo: string, estadoVehiculo: boolean){
-        const result = await this.trabajoRepository.query('CALL insertarTrabajo (?,?,?,?)', [descripcion, costoMaterial, tipoTrabajo, estadoVehiculo])
+    async crearTrabajo(descripcion: string, tipoTrabajo: number, vehiculo: number, encargado: number){
+        const result = await this.trabajoRepository.query('CALL insertarTrabajo (?,?,?,?)', [descripcion, tipoTrabajo, vehiculo, encargado])
 
         return result;
     }
 
-    async actualizarTrabajo(idTrabajo: number, descripcion: string, costoMaterial: number, tipoTrabajo: string, estadoVehiculo: boolean) {
+    async actualizarTrabajo(idTrabajo: number, descripcion: string, costoMaterial: number, tipoTrabajo: string, estado: boolean, vehiculo: number, encargado: number) {
         try {
-            return await this.trabajoRepository.query(`CALL ActualizarTrabajo(?, ?, ?, ?, ?)`, [idTrabajo, descripcion, costoMaterial, tipoTrabajo, estadoVehiculo]);
+            return await this.trabajoRepository.query(`CALL ActualizarTrabajo(?, ?, ?, ?, ?, ?, ?)`, [idTrabajo, descripcion, costoMaterial, tipoTrabajo, estado, vehiculo, encargado]);
         } catch (error) {
             throw new HttpException('Error al actualizar el trabajo', HttpStatus.INTERNAL_SERVER_ERROR);
         }

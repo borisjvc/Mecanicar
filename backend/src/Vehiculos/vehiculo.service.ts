@@ -26,15 +26,15 @@ export class VehiculoService {
         }
     }
 
-    async crearVehiculo(nombre: string, marca: string, modelo: string, placas: string) {
-        const result = await this.vehiculoRepository.query('CALL insertarVehiculo (?,?,?,?)', [nombre, marca, modelo, placas])
+    async crearVehiculo(propietario: string, marca: string, modelo: string, placas: string) {
+        const result = await this.vehiculoRepository.query('CALL insertarVehiculo (?,?,?,?)', [propietario, marca, modelo, placas])
 
         return result;
     }
 
-    async actualizarVehiculo(idVehiculo: number, propNombre: string, marca: string, modelo: string, placas: string) {
+    async actualizarVehiculo(idVehiculo: number, propietario: string, marca: string, modelo: string, placas: string) {
         try {
-            return await this.vehiculoRepository.query(`CALL ActualizarVehiculo(?, ?, ?, ?, ?)`, [idVehiculo, propNombre, marca, modelo, placas]);
+            return await this.vehiculoRepository.query(`CALL ActualizarVehiculo(?, ?, ?, ?, ?)`, [idVehiculo, propietario, marca, modelo, placas]);
         } catch (error) {
             throw new HttpException('Error al actualizar el vehículo', HttpStatus.INTERNAL_SERVER_ERROR);
         }

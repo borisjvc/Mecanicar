@@ -16,10 +16,6 @@ export class JwtAuthGuard implements CanActivate {
       context.getClass(),
     ]);
 
-    if (isPublic) {
-      return true; // Ruta marcada como pública, no se requiere autenticación
-    }
-
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization.split(' ')[1];
 

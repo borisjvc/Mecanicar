@@ -34,15 +34,17 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
+    
 
     try {
       const response = await axios.post(
         "https://localhost:3001/usuarios/login",
         formData
       );
+      
+      Cookies.remove("token");
 
       if (response.data.token) {
-        Cookies.remove("token");
         Cookies.set("token", response.data.token, { expires: 1 / 8 }); // 3 horas de duración
         navigate("/inicio");
       } else {
@@ -50,7 +52,6 @@ export default function Login() {
         console.error(response.data.message);
       }
     } catch (error) {
-      console.log(formData);
       console.error("Error al enviar los datos:", error);
     }
   };

@@ -2,31 +2,53 @@ import React from "react";
 import VerticalDashboard from "../components/dashboard";
 import axios from "axios";
 import { useFormik } from "formik";
+import Cookies from "js-cookie";
 
 function Agregar() {
+  const tipoTrabajoOptions = [
+    "Reparación",
+    "Mecánica",
+    "Reparación de chapa y pintura",
+    "Revisión",
+  ];
+  const token = Cookies.get();
   const formik = useFormik({
     initialValues: {
       Propietario: "",
       Modelo: "",
       Placas: "",
       Marca: "",
-      costoMaterial: 0,
       tipoTrabajo: "",
       descripcion: "",
     },
     onSubmit: async (values, actions) => {
       try {
-        const { Propietario, Modelo, Placas, Marca } = values;
-        
+        const { Propietario, Modelo, Placas, Marca, tipoTrabajo, descripcion } = values;
         //primero se agrega el vehiculo
-        await axios.post("https://localhost:3001/vehiculos", {
-          nombre: Propietario, 
+        const res = await axios.post("https://localhost:3001/vehiculos", {
+          propietario: Propietario, 
           marca: Marca,
           modelo: Modelo, 
           placas: Placas,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
         });
 
-        //posteriormente se agrega el servicio aqui abajo
+        //posteriormente se agrega el servicio 
+        const mappedTipoTrabajo = tipoTrabajoOptions.indexOf(tipoTrabajo);
+        await axios.post("https://localhost:3001/trabajos", {
+          descripcion: descripcion, 
+          tipo: mappedTipoTrabajo,
+          vehiculo: res.data.idVehiculo
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        });
 
         actions.resetForm();
         alert("Datos agregados correctamente");
@@ -42,13 +64,13 @@ function Agregar() {
         <VerticalDashboard />
 
         <div className="flex flex-col flex-grow items-center mx-auto ">
-          <h1 className="p-20 pr-[750px] font-semibold text-4xl">
+          <h1 className="p-12 pr-[750px] font-semibold text-4xl">
             Agregar Servicio
           </h1>
 
           <div className="">
             <h2 className="text-gray-700 text-3xl font-semibold mb-5">
-              Agregar Vehiculos
+            Datos del vehiculo
             </h2>
             <form
               className="w-[500px] h-[600px]"
@@ -57,7 +79,7 @@ function Agregar() {
               <div className="flex flex-row">
                 <div className="mb-4 pr-5">
                   <label
-                    className="block text-gray-700 text-2xl font-semibold mb-2"
+                    className="block text-gray-700 text-xl font-semibold mb-2"
                     htmlFor="propietario"
                   >
                     Propietario
@@ -67,13 +89,14 @@ function Agregar() {
                     name="Propietario"
                     id="propietario"
                     className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
+                    required
                     onChange={formik.handleChange}
                     value={formik.values.Propietario}
                   />
                 </div>
                 <div className="mb-4 pr-5">
                   <label
-                    className="block text-gray-700 text-2xl font-semibold mb-2"
+                    className="block text-gray-700 text-xl font-semibold mb-2"
                     htmlFor="modelo"
                   >
                     Modelo
@@ -83,13 +106,14 @@ function Agregar() {
                     name="Modelo"
                     id="modelo"
                     className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
+                    required
                     onChange={formik.handleChange}
                     value={formik.values.Modelo}
                   />
                 </div>
                 <div className="mb-4">
                   <label
-                    className="block text-gray-700 text-2xl font-semibold mb-2"
+                    className="block text-gray-700 text-xl font-semibold mb-2"
                     htmlFor="placas"
                   >
                     Placas
@@ -99,6 +123,7 @@ function Agregar() {
                     name="Placas"
                     id="placas"
                     className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
+                    required
                     onChange={formik.handleChange}
                     value={formik.values.Placas}
                   />
@@ -107,7 +132,7 @@ function Agregar() {
               <div className="flex flex-row">
                 <div className="mb-4 pr-5">
                   <label
-                    className="block text-gray-700 text-2xl font-semibold mb-2"
+                    className="block text-gray-700 text-xl font-semibold mb-2"
                     htmlFor="marca"
                   >
                     Marca
@@ -117,45 +142,32 @@ function Agregar() {
                     name="Marca"
                     id="marca"
                     className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
+                    required
                     onChange={formik.handleChange}
                     value={formik.values.Marca}
                   />
                 </div>
               </div>
               <h3 className="text-gray-700 text-3xl font-semibold mb-5 mt-5">
-                Agregar Trabajo
+                Datos del servicio
               </h3>
               <div className="flex flex-row">
                 <div className="mb-4 pr-5">
-                  <label
-                    className="block text-gray-700 text-2xl font-semibold mb-2"
-                    htmlFor="costoMaterial"
-                  >
-                    Coste
-                  </label>
-                  <input
-                    type="number"
-                    name="CostoMaterial"
-                    id="costoMaterial"
-                    className="border-2 border-blue-950 rounded-lg mb-2 py-1 px-2"
-                    onChange={formik.handleChange}
-                    value={formik.values.costoMaterial}
-                  />
                   <div className="mb-2">
                     <label
-                      className="block text-gray-700 text-2xl font-semibold mb-2"
+                      className="block text-gray-700 text-xl font-semibold mb-2"
                       htmlFor="tipoTrabajo"
                     >
-                      Tipo de Trabajo
+                      Tipo
                     </label>
                     <select
-                      id="Tipotrabajo"
-                      name="tipotrabajo"
-                      className="border-2 border-blue-950 rounded-lg py-1 px-2"
+                      id="tipoTrabajo"
+                      name="tipoTrabajo"
+                      className="border-2 border-blue-950 rounded-lg py-2 px-2"
+                      required
                       onChange={formik.handleChange}
                       value={formik.values.tipoTrabajo}
                     >
-                      <option value=""></option>
                       <option className="font-semibold text-gray-700 text-md">
                         Reparación
                       </option>
@@ -174,7 +186,7 @@ function Agregar() {
               </div>
               <div>
                 <label
-                  className="block text-gray-700 text-2xl font-semibold mb-2"
+                  className="block text-gray-700 text-xl font-semibold mb-2"
                   htmlFor="descripcion"
                 >
                   Descripción
@@ -183,6 +195,7 @@ function Agregar() {
                   id="Descripcion"
                   name="descripcion"
                   className="border-2 border-blue-950 rounded-lg w-full py-1 px-2 mb-3"
+                  required
                   onChange={formik.handleChange}
                   value={formik.values.descripcion}
                 ></textarea>
