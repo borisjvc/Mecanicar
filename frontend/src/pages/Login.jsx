@@ -41,7 +41,7 @@ export default function Login() {
         "https://localhost:3001/usuarios/login",
         formData
       );
-      
+
       Cookies.remove("token");
 
       if (response.data.token) {

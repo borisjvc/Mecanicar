@@ -18,9 +18,9 @@ export class TrabajosService {
         }
     }
 
-    async obtenerTrabajos() {
+    async obtenerTrabajos(obtenerTodos: boolean, idUsuario: number) {
         try {
-            return await this.trabajoRepository.query(`CALL ObtenerTrabajos()`);
+            return await this.trabajoRepository.query(`CALL ObtenerTrabajos(?, ?)`, [obtenerTodos, idUsuario]);
         } catch (error) {
             throw new HttpException('Error al obtener la lista de trabajos', HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -32,7 +32,7 @@ export class TrabajosService {
         return result;
     }
 
-    async actualizarTrabajo(idTrabajo: number, descripcion: string, costoMaterial: number, tipoTrabajo: string, estado: boolean, vehiculo: number, encargado: number) {
+    async actualizarTrabajo(idTrabajo: number, descripcion?: string, costoMaterial?: number, tipoTrabajo?: number, estado?: boolean, vehiculo?: number, encargado?: number) {
         try {
             return await this.trabajoRepository.query(`CALL ActualizarTrabajo(?, ?, ?, ?, ?, ?, ?)`, [idTrabajo, descripcion, costoMaterial, tipoTrabajo, estado, vehiculo, encargado]);
         } catch (error) {

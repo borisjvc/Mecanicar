@@ -16,7 +16,7 @@ export class UsuariosService {
         private readonly jwtService: JwtService,
     ) { }
 
-    async crearUsuario(name: string, apellido: string, passwrd: string, email: string, rol?: number): Promise<Usuario> {
+    async crearUsuario(name: string, apellido: string, passwrd: string, email: string, rol?: number) {
         //if(rol actual es admin entonces)
         const queryRunner = this.connection.createQueryRunner();
         await queryRunner.connect();
@@ -35,18 +35,11 @@ export class UsuariosService {
                 // Si no existe, proceder con la creación del usuario
                 await queryRunner.query('CALL InsertarUsuario(?, ?, ?, ?, ?)', [name, apellido, email, hashedPassword, rol]);
                 await queryRunner.commitTransaction();
-                // Devolver el usuario creado
-                const newUser = new Usuario();
-                newUser.nombre = name;
-                newUser.apellido = apellido;
-                newUser.contrasena = passwrd;
-                newUser.correo = email;
-                newUser.rol = rol;
-                return newUser;
+                return { message: "Usuario creado exitosamente"};
             }
         } catch (error) {
             await queryRunner.rollbackTransaction();
-            throw error;
+            return { message: "Error al crear usuario: ", error};
         } finally {
             await queryRunner.release();
         }

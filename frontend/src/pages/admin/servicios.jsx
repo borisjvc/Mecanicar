@@ -1,5 +1,5 @@
 import React from 'react';
-import VerticalDashboard from '../components/dashboard';
+import VerticalDashboard from '../../components/dashboard';
 
 function Servicios() {
     return (

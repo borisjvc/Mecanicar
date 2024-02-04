@@ -1,10 +1,10 @@
-import VerticalDashboard from "../components/dashboard";
+import VerticalDashboard from "../../components/dashboard";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { PiPlusBold } from "react-icons/pi";
 import axios from "axios";
 import Cookies from "js-cookie";
-//agregar campo al usuario para saber si esta activo o no
+//TODO: Mejorar el modal para cerrarlo
 export default function Usuarios() {
   const token = Cookies.get();
   const [usuarios, setUsuarios] = useState([]);
@@ -25,8 +25,11 @@ export default function Usuarios() {
           Authorization: `Bearer ${token.token}`,
         },
       });
-
-      setUsuarios(response.data);
+      //filtrar para solo mostrar usuarios que no hayan sido eliminados
+      const usuariosFiltrados = response.data.filter(
+        (users) => users.activo === 1
+      );
+      setUsuarios(usuariosFiltrados);
     } catch (error) {
       console.error("Error al obtener usuarios:", error);
     }

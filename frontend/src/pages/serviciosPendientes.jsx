@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 function Gestionar() {
   const token = Cookies.get();
   const [trabajos, setTrabajos] = useState([]);
+  const [nombre, setNombre] = useState(null);
 
   const fetchTrabajos = async () => {
     try {
@@ -15,10 +16,13 @@ function Gestionar() {
           Authorization: `Bearer ${token.token}`,
         },
       });
-      // Filtrar trabajos con estado 0
-      const trabajosFiltrados = response.data[0].filter(
+
+      setNombre(response.data.nombre)
+      // Filtrar trabajos con estado Pendiente
+      const trabajosFiltrados = response.data.trabajos.filter(
         (trabajo) => trabajo.estadoTrabajo === 0
       );
+      
       setTrabajos(trabajosFiltrados);
     } catch (error) {
       console.error("Error al obtener trabajos:", error);
@@ -29,17 +33,37 @@ function Gestionar() {
     fetchTrabajos();
   }, []);
 
-  // Función para manejar la visualización de los detalles de la operación
+  const handleFinalizar = async (id) => {
+    const resultado = window.confirm("¿Estás seguro que quieres marcar este trabajo como finalizado? No se podrá revertir esta acción")
+    if(resultado)
+      try {
+        const response = await axios.put(`https://localhost:3001/trabajos/${id}`, {"estado": 1},{
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        });
+        fetchTrabajos();
+      } catch (error) {
+        console.error("Error al marcar como finalizado: ", error);
+      }
+    
+    return
+  };
+
   const handleVisualizar = (id) => {
-    // Lógica para visualizar los detalles de la operación según el ID
+    
     console.log(`Visualizar detalles de la operación con ID: ${id}`);
   };
+
+
+  //TODO: Poder modificar los datos de los servicios
+  //TODO: Agregar materiales, tal vez una tabla en la base de datos
 
   return (
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
       <VerticalDashboard />
       <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
-        <h1 className="text-4xl font-bold mb-8">Servicios pendientes de {}</h1>
+        <h1 className="text-4xl font-bold mb-8">Servicios pendientes de {nombre}</h1> 
 
         {/* Section 2 */}
         <section className="grid grid-cols-1 md:grid-cols-1 mt-10 gap-8">
@@ -79,6 +103,12 @@ function Gestionar() {
                           onClick={() => handleVisualizar(trabajo.idTrabajo)}
                         >
                           Visualizar
+                        </button>
+                        <button
+                          className="bg-azulito text-white px-4 py-2 rounded-md ml-6"
+                          onClick={() => handleFinalizar(trabajo.idTrabajo)}
+                        >
+                          Marcar como finalizado
                         </button>
                       </td>
                     </tr>

@@ -17,9 +17,8 @@ export class UsuariosController {
     ) {
 
         try {
-            const newUser = await this.usuariosService.crearUsuario(name, apellido, passwrd, email, rol);
-            console.log(newUser)
-            return newUser;
+            const status = await this.usuariosService.crearUsuario(name, apellido, passwrd, email, rol);
+            return status;
         } catch (error) {
             throw new Error(`${error.message}`);
         }
@@ -76,7 +75,7 @@ export class UsuariosController {
         const user = await this.usuariosService.findByEmail(Email, Passwrd);
 
         if (!user) {
-            return { message: 'Credenciales invalidas' };
+            return { message: 'Credenciales incorrectas' };
         }
 
         return { token: user.access_token };

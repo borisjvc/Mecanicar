@@ -23,32 +23,39 @@ function Agregar() {
     },
     onSubmit: async (values, actions) => {
       try {
-        const { Propietario, Modelo, Placas, Marca, tipoTrabajo, descripcion } = values;
+        const { Propietario, Modelo, Placas, Marca, tipoTrabajo, descripcion } =
+          values;
         //primero se agrega el vehiculo
-        const res = await axios.post("https://localhost:3001/vehiculos", {
-          propietario: Propietario, 
-          marca: Marca,
-          modelo: Modelo, 
-          placas: Placas,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
+        const res = await axios.post(
+          "https://localhost:3001/vehiculos",
+          {
+            propietario: Propietario,
+            marca: Marca,
+            modelo: Modelo,
+            placas: Placas,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+            },
+          }
+        );
 
-        //posteriormente se agrega el servicio 
+        //posteriormente se agrega el servicio
         const mappedTipoTrabajo = tipoTrabajoOptions.indexOf(tipoTrabajo);
-        await axios.post("https://localhost:3001/trabajos", {
-          descripcion: descripcion, 
-          tipo: mappedTipoTrabajo,
-          vehiculo: res.data.idVehiculo
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
+        await axios.post(
+          "https://localhost:3001/trabajos",
+          {
+            descripcion: descripcion,
+            tipo: mappedTipoTrabajo,
+            vehiculo: res.data.idVehiculo,
           },
-        });
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+            },
+          }
+        );
 
         actions.resetForm();
         alert("Datos agregados correctamente");
@@ -57,7 +64,7 @@ function Agregar() {
       }
     },
   });
-
+  //TODO: Mejorar la UI
   return (
     <>
       <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
@@ -70,7 +77,7 @@ function Agregar() {
 
           <div className="">
             <h2 className="text-gray-700 text-3xl font-semibold mb-5">
-            Datos del vehiculo
+              Datos del vehiculo
             </h2>
             <form
               className="w-[500px] h-[600px]"
@@ -168,16 +175,34 @@ function Agregar() {
                       onChange={formik.handleChange}
                       value={formik.values.tipoTrabajo}
                     >
-                      <option className="font-semibold text-gray-700 text-md">
+                      <option
+                        value=""
+                        className="font-semibold text-gray-700 text-md"
+                      >
+                        Seleccionar tipo de trabajo
+                      </option>
+                      <option
+                        value="Reparación"
+                        className="font-semibold text-gray-700 text-md"
+                      >
                         Reparación
                       </option>
-                      <option className="font-semibold text-gray-700 text-md">
+                      <option
+                        value="Mecánica"
+                        className="font-semibold text-gray-700 text-md"
+                      >
                         Mecánica
                       </option>
-                      <option className="font-semibold text-gray-700 text-md">
+                      <option
+                        value="Reparación de chapa y pintura"
+                        className="font-semibold text-gray-700 text-md"
+                      >
                         Reparación de chapa y pintura
                       </option>
-                      <option className="font-semibold text-gray-700 text-md">
+                      <option
+                        value="Revisión"
+                        className="font-semibold text-gray-700 text-md"
+                      >
                         Revisión
                       </option>
                     </select>

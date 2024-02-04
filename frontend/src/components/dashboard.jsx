@@ -11,7 +11,9 @@ import {
 } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+//TODO: Dash para usuario y admin, admin vistas diferentes
+//TODO: Recuperacion de contraseña
+//TODO: Perfil usuario
 const VerticalDashboard = () => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();

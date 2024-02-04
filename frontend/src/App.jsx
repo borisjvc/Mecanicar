@@ -1,18 +1,20 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Registro from "./pages/registro";
+import Registro from "./pages/admin/registro";
+import Servicios from "./pages/admin/servicios";
+import Usuarios from "./pages/admin/usuarios";
+
 import Inicio from "./pages/inicio";
 import Login from "./pages/Login";
-import Servicios from "./pages/servicios";
-import Gestionar from "./pages/gestionarservicio";
-import Agregar from "./pages/agregarservicio";
-import Editar from "./pages/editarservicio";
+import Gestionar from "./pages/ServiciosPendientes";
+import Agregar from "./pages/servicioAgregar";
+import Editar from "./pages/servicioEditar";
 import Error from "./pages/error";
-import Realizados from "./pages/serviciosrealizados";
+import Realizados from "./pages/serviciosFinalizados";
 import ProtectedRoute from "./components/protectedRoutes";
 import Recuperar from "./pages/recuperar";
 import "semantic-ui-css/semantic.min.css";
-import Usuarios from "./pages/usuarios";
+
 
 //requiredRoles 1 es administrador, 0 es mecánico
 function App() {
@@ -45,7 +47,7 @@ function App() {
         <ProtectedRoute
           element={<Servicios />}
           path="/servicios"
-          requiredRoles={[0, 1]}
+          requiredRoles={[1]}
         />
       ),
     },
