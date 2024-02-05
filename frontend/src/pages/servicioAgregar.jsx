@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import VerticalDashboard from "../components/dashboard";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -11,6 +11,8 @@ function Agregar() {
     "Revisión",
   ];
   const token = Cookies.get();
+  const [isLoading, setIsLoading] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       Propietario: "",
@@ -22,9 +24,12 @@ function Agregar() {
     },
     onSubmit: async (values, actions) => {
       try {
+        setIsLoading(true);
+
         const { Propietario, Modelo, Placas, Marca, tipoTrabajo, descripcion } =
           values;
-        //primero se agrega el vehiculo
+
+        // primero se agrega el vehiculo
         const res = await axios.post(
           "https://localhost:3001/vehiculos",
           {
@@ -40,7 +45,7 @@ function Agregar() {
           }
         );
 
-        //posteriormente se agrega el servicio
+        // posteriormente se agrega el servicio
         const mappedTipoTrabajo = tipoTrabajoOptions.indexOf(tipoTrabajo);
         await axios.post(
           "https://localhost:3001/trabajos",
@@ -56,10 +61,12 @@ function Agregar() {
           }
         );
 
+        setIsLoading(false);
         actions.resetForm();
         alert("Datos agregados correctamente");
       } catch (error) {
         console.error("Error adding data:", error);
+        setIsLoading(false);
       }
     },
   });
@@ -223,8 +230,9 @@ function Agregar() {
                 <button
                   className="bg-blue-950 hover:bg-orange-500 text-white text-2xl font-semibold p-3 px-4 rounded-lg"
                   type="submit"
+                  disabled={isLoading}
                 >
-                  Agregar Servicio
+                  {isLoading ? "Agregando..." : "Agregar Servicio"}
                 </button>
               </div>
             </form>
