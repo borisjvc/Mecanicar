@@ -1,61 +1,67 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 require('dotenv').config();
 
 @Controller('correo')
 export class CorreoController {
+  private verificationCodes: Record<string, string> = {};
 
-    @Post()
-    async enviarCorreo(
-        @Body("correo") correo: string,
-        @Body("tipo") titulo: string
-    ): Promise<string> {
-        const destinatario = correo;
-        const asunto = titulo;
-        const sender = process.env.EMAIL_SENDER; 
+  @Post()
+  async enviarCorreo(@Body('correo') correo: string) {
+    const destinatario = correo;
+    const sender = process.env.EMAIL_SENDER;
 
-        let mailOptions: { from: string; to: string; subject: string; text: string; };
-
-        function generateVerificationCode(): string {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        if (asunto === "Recuperar contraseña") {
-            mailOptions = {
-                from: sender,
-                to: destinatario,
-                subject: asunto,
-                text: "Texto personalizado para recuperar contraseña",
-            };
-        } else if (asunto === "Código de verificación") {
-            const verificationCode = generateVerificationCode();
-            mailOptions = {
-                from: sender,
-                to: destinatario,
-                subject: asunto,
-                text: `Su código de verificación es: ${verificationCode}`,
-            };
-        } else {
-            throw new Error('Asunto no reconocido');
-        }
-
-        try {
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASSWORD,
-                },
-            });
-
-            await transporter.sendMail(mailOptions);
-            console.log("Correo enviado");
-            return 'Correo enviado con éxito';
-        } catch (error) {
-            console.error(`Error al enviar el correo: ${error.message}`);
-            throw new Error('Error al enviar el correo');
-        }
-
+    function generateVerificationCode(): string {
+      return Math.floor(100000 + Math.random() * 900000).toString();
     }
 
+    const verificationCode = generateVerificationCode();
+    const mailOptions = {
+      from: sender,
+      to: destinatario,
+      subject: 'Código de verificación',
+      text: `Su código de verificación es: ${verificationCode}`,
+    };
+
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_SENDER,
+          pass: process.env.EMAIL_PASSWORD,
+        },
+      });
+
+      await transporter.sendMail(mailOptions);
+      console.log('Correo enviado');
+      console.log(verificationCode);
+
+      // Almacenar el código de verificación junto con el destinatario para su posterior verificación
+      this.verificationCodes[destinatario] = verificationCode;
+
+      return 'Correo enviado con éxito';
+    } catch (error) {
+      console.error(`Error al enviar el correo: ${error}`);
+      throw new Error('Error al enviar el correo');
+    }
+  }
+
+  @Post('/validar')
+  verificarCodigo(
+    @Body('codigo') codigo: string,
+    @Body('correo') correo: string,
+  ) {
+    const storedCode = this.verificationCodes[correo];
+
+    if (!storedCode) {
+      throw new Error('Código de verificación no encontrado');
+    }
+
+    if (codigo === storedCode) {
+      delete this.verificationCodes[correo]; // Limpiar el código después de usarlo
+      return true;
+    } else {
+      throw new Error('Código de verificación incorrecto');
+    }
+  }
 }

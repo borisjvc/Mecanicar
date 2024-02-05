@@ -11,9 +11,22 @@ export default function Login() {
     Email: "",
     Passwrd: "",
   });
+  const [formCodigo, setFormCodigo] = useState({
+    codigo: "",
+  });
 
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [token, setToken] = useState(null);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     // Verificar la presencia de un token al cargar el componente
@@ -31,10 +44,16 @@ export default function Login() {
     });
   };
 
+  const handleCodigoChange = (e) => {
+    setFormCodigo({
+      ...formCodigo,
+      codigo: e.target.value,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage(null);
-    
 
     try {
       const response = await axios.post(
@@ -44,15 +63,36 @@ export default function Login() {
 
       Cookies.remove("token");
 
+      //enviar un codigo a su correo
       if (response.data.token) {
-        Cookies.set("token", response.data.token, { expires: 1 / 8 }); // 3 horas de duración
-        navigate("/inicio");
+        await axios.post("https://localhost:3001/correo", {
+          correo: formData.Email,
+        });
+        setToken(response.data.token);
+        openModal();
       } else {
         setErrorMessage(response.data.message);
         console.error(response.data.message);
       }
     } catch (error) {
       console.error("Error al enviar los datos:", error);
+    }
+  };
+
+  const handleSubmitCodigo = async (e) => {
+    e.preventDefault();
+    //validar que el código sea correcto
+    const codigoValido = await axios.post(
+      `https://localhost:3001/correo/validar`,
+      {
+        "codigo": formCodigo.codigo,
+        "correo": formData.Email,
+      }
+    );
+
+    if (codigoValido.data) {
+      Cookies.set("token", token, { expires: 1 / 8 }); // 3 horas de duración
+      navigate("/inicio");
     }
   };
 
@@ -154,6 +194,47 @@ export default function Login() {
                 )}
               </div>
             </form>
+            {isModalOpen && (
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
+                <div
+                  className="absolute w-full h-full bg-black bg-opacity-50 backdrop-blur-md"
+                  onClick={closeModal}
+                ></div>
+                <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
+                  <h2 className="text-2xl font-bold mb-4">Se envió un código de verificación a tu correo</h2>
+                  <form
+                    className="flex flex-col p-16"
+                    onSubmit={handleSubmitCodigo}
+                  >
+                    <label className="font-bold mb-2">
+                      Código de Verificación
+                    </label>
+                    <input
+                      type="text"
+                      name="codigo"
+                      value={formCodigo.codigo}
+                      onChange={handleCodigoChange}
+                      minLength={6}
+                      maxLength={6}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+
+                    <button
+                      type="submit"
+                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md mt-4"
+                    >
+                      Verificar Código
+                    </button>
+                  </form>
+                  <button
+                    className="px-16 py-2 bg-rose-600 hover:bg-rose-800 text-white rounded-lg cursor-pointer text-xl self-center "
+                    onClick={closeModal}
+                  >
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
