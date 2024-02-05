@@ -3,7 +3,7 @@ import VerticalDashboard from "../components/dashboard";
 import { RiLineChartLine, RiHashtag } from "react-icons/ri";
 import axios from "axios";
 import Cookies from "js-cookie";
-//TODO: Calcular precio, se modifico la base de datos
+
 function Gestionar() {
   const token = Cookies.get();
   const [trabajos, setTrabajos] = useState([]);
@@ -279,7 +279,7 @@ function Gestionar() {
               <form>
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Horas
+                    Horas (opcional)
                   </label>
                   <input
                     type="number"
@@ -292,7 +292,7 @@ function Gestionar() {
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Material
+                    Material (opcional)
                   </label>
                   <input
                     type="text"
@@ -305,7 +305,7 @@ function Gestionar() {
                 </div>
                 <div className="mb-4">
                   <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Precio Material
+                    Precio Material (opcional)
                   </label>
                   <input
                     type="number"
@@ -316,6 +316,10 @@ function Gestionar() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>
+                <p className="text-gray-500 text-sm mb-4">
+                  Nota: Puedes dejar los campos en blanco si no deseas
+                  agregar esa información.
+                </p>
                 <button
                   type="button"
                   className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md mt-4"

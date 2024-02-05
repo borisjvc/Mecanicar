@@ -89,7 +89,7 @@ function Realizados() {
                         {trabajo.horasTrabajo}
                       </td>
                       <td className="text-center py-2">
-                        {trabajo.tipoTrabajoTexto === "Reparación Mecánica" && (
+                        {trabajo.tipoTrabajoTexto === "Reparación mecánica" && (
                           <>
                             {parseFloat(trabajo.costoMaterial) * 1.1 +
                               trabajo.horasTrabajo * 350}
@@ -104,8 +104,7 @@ function Realizados() {
                         )}
                         {trabajo.tipoTrabajoTexto === "Revisión" && (
                           <>
-                            {parseFloat(trabajo.costoMaterial) +
-                              trabajo.horasTrabajo * 350 +
+                            {trabajo.horasTrabajo * 350 +
                               450}
                           </>
                         )}
@@ -153,7 +152,7 @@ function Realizados() {
               )}
               {/* Calcular el importe según el tipo de trabajo */}
               {trabajoSeleccionado.tipoTrabajoTexto ===
-                "Reparación Mecánica" && (
+                "Reparación mecánica" && (
                 <p>
                   Importe:{" "}
                   {parseFloat(trabajoSeleccionado.costoMaterial) * 1.1 +
