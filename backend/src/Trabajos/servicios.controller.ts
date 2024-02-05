@@ -7,10 +7,16 @@ import { JwtAuthGuard } from 'src/Auth/jwt-auth.guard';
 export class TrabajosController {
     constructor(private readonly trabajosService: TrabajosService) { }
 
-    @Get(':idTrabajo')
+    @Get('byId/:idTrabajo')
     @UseGuards(JwtAuthGuard)
     obtenerTrabajoPorID(@Param('idTrabajo', ParseIntPipe) idTrabajo: number) {
         return this.trabajosService.obtenerTrabajoPorID(idTrabajo);
+    }
+
+    @Get('/count')
+    @UseGuards(JwtAuthGuard)
+    obtenerContador(@Request() req) {
+        return this.trabajosService.obtenerTrabajosCount(req.user.id);
     }
 
     @Get()
@@ -31,8 +37,8 @@ export class TrabajosController {
         @Request() req,
         @Param('idTrabajo', ParseIntPipe) idTrabajo: number,
         @Body('descripcion') descripcion?: string,
-        @Body('costoMaterial') costoMaterial?: number,
         @Body('tipoTrabajo') tipoTrabajo?: number,
+        @Body('horas') horas?: number,
         @Body('estado') finalizado?: boolean,
         @Body('vehiculo') vehiculo?: number
     ) {
@@ -45,15 +51,15 @@ export class TrabajosController {
                 return { message: "No tienes los permisos necesarios para esta acción" };
             }
         }
-    
+        
         return this.trabajosService.actualizarTrabajo(
             idTrabajo,
             descripcion,
-            costoMaterial,
             tipoTrabajo,
             finalizado,
             vehiculo,
-            req.user.id
+            req.user.id,
+            horas
         );
     }
     
@@ -61,7 +67,7 @@ export class TrabajosController {
     @Delete(':idTrabajo')
     @UseGuards(JwtAuthGuard)
     eliminarTrabajo(@Param('idTrabajo', ParseIntPipe) idTrabajo: number, @Request() req ) {
-        if(req.rol === 1)
+        if(req.user.rol === 1)
             return this.trabajosService.eliminarTrabajo(idTrabajo);
         
         return { message: "No tienes los permisos necesarios para borrar" }

@@ -26,7 +26,7 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
         if (response.status === 200) {
           setAuthenticated(true);
           setUserRoles(response.data.user.rol);
-          //setUserRoles([1]);
+          localStorage.setItem("userRoles", JSON.stringify(response.data.user.rol));
         }
       } catch (error) {
         console.error("Error al validar el token", error);
@@ -45,6 +45,7 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
     else
       navigate("/");
   };
+
   return isAuthenticated && hasRequiredRoles() ? element : null;
 };
 

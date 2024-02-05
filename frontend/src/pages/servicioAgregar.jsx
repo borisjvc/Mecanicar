@@ -6,8 +6,7 @@ import Cookies from "js-cookie";
 
 function Agregar() {
   const tipoTrabajoOptions = [
-    "Reparación",
-    "Mecánica",
+    "Reparación mecánica",
     "Reparación de chapa y pintura",
     "Revisión",
   ];
@@ -64,7 +63,7 @@ function Agregar() {
       }
     },
   });
-  //TODO: Mejorar la UI
+
   return (
     <>
       <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
@@ -182,16 +181,10 @@ function Agregar() {
                         Seleccionar tipo de trabajo
                       </option>
                       <option
-                        value="Reparación"
+                        value="Reparación mecánica"
                         className="font-semibold text-gray-700 text-md"
                       >
-                        Reparación
-                      </option>
-                      <option
-                        value="Mecánica"
-                        className="font-semibold text-gray-700 text-md"
-                      >
-                        Mecánica
+                        Reparación mecánica
                       </option>
                       <option
                         value="Reparación de chapa y pintura"
@@ -221,6 +214,7 @@ function Agregar() {
                   name="descripcion"
                   className="border-2 border-blue-950 rounded-lg w-full py-1 px-2 mb-3"
                   required
+                  maxLength={500}
                   onChange={formik.handleChange}
                   value={formik.values.descripcion}
                 ></textarea>

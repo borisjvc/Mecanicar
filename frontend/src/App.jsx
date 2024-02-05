@@ -20,16 +20,6 @@ import "semantic-ui-css/semantic.min.css";
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/registro",
-      element: (
-        <ProtectedRoute
-          element={<Registro />}
-          path="/registro"
-          requiredRoles={[1]}
-        />
-      ),
-    },
-    {
       path: "/inicio",
       element: <ProtectedRoute
         element={<Inicio />}

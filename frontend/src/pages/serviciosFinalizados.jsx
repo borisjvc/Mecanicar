@@ -56,9 +56,9 @@ function Realizados() {
         <section className="grid grid-cols-1 md:grid-cols-1 mt-10 gap-8">
           <div>
             {/* Table */}
-            <div className="bg-miniazul p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
+            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
               <table className="w-full">
-                <thead className="bg-blue-950 text-white">
+                <thead className="bg-blue-500 text-white">
                   <tr>
                     <th className="font-bold text-center py-2">Placas</th>
                     <th className="font-bold text-center py-2">Modelo</th>
@@ -67,14 +67,14 @@ function Realizados() {
                     <th className="font-bold text-center py-2">Descripción</th>
                     <th className="font-bold text-center py-2">Horas</th>
                     <th className="font-bold text-center py-2">Importe</th>
-                    <th className="font-bold text-center py-2">Operacion</th>
+                    <th className="font-bold text-center py-2">Operación</th>
                   </tr>
                 </thead>
                 <tbody>
                   {trabajos.map((trabajo) => (
                     <tr
                       key={trabajo.idTrabajo}
-                      className="hover:bg-blue-300  transition-all"
+                      className="hover:bg-blue-100  transition-all"
                     >
                       <td className="text-center py-2">{trabajo.placas}</td>
                       <td className="text-center py-2">{trabajo.modelo}</td>
@@ -112,10 +112,10 @@ function Realizados() {
                       </td>
                       <td className="text-center py-2">
                         <button
-                          className="bg-azulito text-white px-4 py-2 rounded-md"
+                          className="bg-teal-500 hover:bg-teal-700 text-white px-4 py-2 rounded-md"
                           onClick={() => handleVisualizar(trabajo.idTrabajo)}
                         >
-                          Visualizar
+                          Detalles
                         </button>
                       </td>
                     </tr>
@@ -178,7 +178,7 @@ function Realizados() {
               )}
 
               <button
-                className="bg-azulito text-white px-4 py-2 rounded-md mt-4"
+                className="bg-rose-600 hover:bg-rose-800 text-white px-4 py-2 rounded-md mt-4"
                 onClick={() => setTrabajoSeleccionado(null)}
               >
                 Cerrar

@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import VerticalDashboard from "../components/dashboard";
-
+import axios from "axios";
 import { PiWrenchFill,PiChartBarFill ,PiBroomFill, PiPoliceCarBold, PiHourglassHighBold, PiWhatsappLogoFill, PiEnvelopeFill  } from "react-icons/pi";
-import { RiLineChartLine, RiHashtag } from "react-icons/ri";
-
+import Cookies from "js-cookie";
 
 function Inicio() {
+  const token = Cookies.get();
+  const [count, setCount] = useState([]);
+
+  const fetchCount = async () => {
+    try {
+      const response = await axios.get("https://localhost:3001/trabajos/count", {
+        headers: {
+          Authorization: `Bearer ${token.token}`,
+        },
+      });
+      console.log(response.data)
+      //filtrar para solo mostrar usuarios que no hayan sido eliminados
+      setCount(response.data);
+  
+    } catch (error) {
+      console.error("Error al obtener contador:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCount();
+  }, []);
+
   return (
     
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
       <VerticalDashboard />
       <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
       <h1 className="text-4xl font-semibold mb-8">Bienvenido a Mecanicar</h1>
-            <h1></h1>
-            <h1></h1>
         {/* Seccion 1 */}
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-10 gap-8">
 
           <div className="bg-azulito text-center p-8 rounded-xl text-gray-300 flex flex-col gap-6">
             <PiPoliceCarBold className="text-5xl" />
             <h4 className="text-2xl">Servicios Realizados</h4>
-            <span className="text-5xl text-white">3</span>
+            <span className="text-5xl text-white">{count.terminados}</span>
             <a href="/realizados" className="py-2 px-6 rounded-xl font-medium w-full bg-miniazul  text-azulito">
               Visualizar
             </a>
@@ -29,7 +49,7 @@ function Inicio() {
           <div className="bg-azulito text-center p-8 rounded-xl text-gray-300 flex flex-col gap-6">
             <PiHourglassHighBold className="text-5xl" />
             <h4 className="text-2xl">Servicios Pendientes</h4>
-            <span className="text-5xl text-white">2</span>
+            <span className="text-5xl text-white">{count.pendientes}</span>
             <a href="/gestionar" className="py-2 px-6 rounded-xl font-medium w-full bg-miniazul  text-azulito">
               Visualizar
             </a>
