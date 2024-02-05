@@ -32,9 +32,12 @@ export class CorreoController {
         },
       });
 
-      await transporter.sendMail(mailOptions);
+      //await transporter.sendMail(mailOptions); 
+
+      console.error("PARA PROBAR QUE FUNCIONE EL MANDAR CORREO QUITA EL COMENTARIO DE ARRIBA, RECUERDA CREAR UNA CUENTA Y PONER TU PROPIO CORREO")
       console.log('Correo enviado');
-      console.log(verificationCode);
+      console.log('Codigo de verificación: ', verificationCode);
+
 
       // Almacenar el código de verificación junto con el destinatario para su posterior verificación
       this.verificationCodes[destinatario] = verificationCode;
