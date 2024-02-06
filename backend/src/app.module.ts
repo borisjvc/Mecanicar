@@ -6,6 +6,7 @@ import { JwtAuthGuard } from './Auth/jwt-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { VehiculoModule } from './Vehiculos/vehiculo.module';
 import { TrabajosModule } from './Trabajos/servicios.module';
+import { CorreoController } from './correo/correo.controller';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { TrabajosModule } from './Trabajos/servicios.module';
       entities: [__dirname + '/*/.entity{.ts,.js}'],
       synchronize: true
     }), UsuariosModule, VehiculoModule, TrabajosModule],
-  controllers: [],
+  controllers: [CorreoController],
   providers: [JwtService,JwtAuthGuard],
 }) 
 export class AppModule { }
