@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
+import { FaSpinner } from "react-icons/fa";
 import VerticalDashboard from "../components/dashboard";
 import axios from "axios";
-import { useFormik } from "formik";
 import Cookies from "js-cookie";
 
 function Agregar() {
@@ -69,6 +70,34 @@ function Agregar() {
         setIsLoading(false);
       }
     },
+    validate: (values) => {
+      const errors = {};
+
+      // Regex para validar que no contenga caracteres no permitidos
+      const regex = /^(?!\s)(?!.*\s{2,})[\w ]+$/;
+
+      if (!regex.test(values.Propietario)) {
+        errors.Propietario = "El propietario no puede contener caracteres especiales y debe contener al menos un carácter distinto de espacio.";
+      }
+
+      if (!regex.test(values.Modelo)) {
+        errors.Modelo = "El modelo no puede contener caracteres especiales y debe contener al menos un carácter distinto de espacio.";
+      }
+
+      if (!regex.test(values.Placas)) {
+        errors.Placas = "Las placas no pueden contener caracteres especiales y debe contener al menos un carácter distinto de espacio.";
+      }
+
+      if (!regex.test(values.Marca)) {
+        errors.Marca = "La marca no puede contener caracteres especiales y debe contener al menos un carácter distinto de espacio.";
+      }
+
+      if (!regex.test(values.descripcion)){
+        errors.descripcion = "La descripción no puede contener caracteres especiales y debe contener al menos un carácter distinto de espacio.";
+      }
+
+      return errors;
+    },
   });
 
   return (
@@ -76,99 +105,113 @@ function Agregar() {
       <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
         <VerticalDashboard />
 
-        <div className="flex flex-col flex-grow items-center mx-auto ">
-          <h1 className="p-12 pr-[750px] font-semibold text-4xl">
+        <main className="xl:col-span-5 bg-gray-50 p-10 h-[100vh]">
+          <h1 className="text-4xl font-sans text-center font-bold mb-8">
             Agregar Servicio
           </h1>
-
-          <div className="">
-            <h2 className="text-gray-700 text-3xl font-semibold mb-5">
-              Datos del vehiculo
-            </h2>
-            <form
-              className="w-[500px] h-[600px]"
-              onSubmit={formik.handleSubmit}
-            >
-              <div className="flex flex-row">
-                <div className="mb-4 pr-5">
-                  <label
-                    className="block text-gray-700 text-xl font-semibold mb-2"
-                    htmlFor="propietario"
-                  >
-                    Propietario
-                  </label>
-                  <input
-                    type="text"
-                    name="Propietario"
-                    id="propietario"
-                    className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
-                    required
-                    onChange={formik.handleChange}
-                    value={formik.values.Propietario}
-                  />
-                </div>
-                <div className="mb-4 pr-5">
-                  <label
-                    className="block text-gray-700 text-xl font-semibold mb-2"
-                    htmlFor="modelo"
-                  >
-                    Modelo
-                  </label>
-                  <input
-                    type="text"
-                    name="Modelo"
-                    id="modelo"
-                    className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
-                    required
-                    onChange={formik.handleChange}
-                    value={formik.values.Modelo}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    className="block text-gray-700 text-xl font-semibold mb-2"
-                    htmlFor="placas"
-                  >
-                    Placas
-                  </label>
-                  <input
-                    type="text"
-                    name="Placas"
-                    id="placas"
-                    className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
-                    required
-                    onChange={formik.handleChange}
-                    value={formik.values.Placas}
-                  />
-                </div>
-              </div>
-              <div className="flex flex-row">
-                <div className="mb-4 pr-5">
-                  <label
-                    className="block text-gray-700 text-xl font-semibold mb-2"
-                    htmlFor="marca"
-                  >
-                    Marca
-                  </label>
-                  <input
-                    type="text"
-                    name="Marca"
-                    id="marca"
-                    className="border-2 border-blue-950 rounded-lg w-full py-1 px-2"
-                    required
-                    onChange={formik.handleChange}
-                    value={formik.values.Marca}
-                  />
-                </div>
-              </div>
-              <h3 className="text-gray-700 text-3xl font-semibold mb-5 mt-5">
-                Datos del servicio
-              </h3>
-              <div className="flex flex-row">
-                <div className="mb-4 pr-5">
-                  <div className="mb-2">
+          <br></br>
+          <div className="flex justify-center">
+            <div className="w-full lg:w-3/4 xl:w-2/3">
+              <div className="bg-white shadow-xl rounded-lg p-6">
+                <form className="space-y-4" onSubmit={formik.handleSubmit}>
+                  <div>
                     <label
-                      className="block text-gray-700 text-xl font-semibold mb-2"
+                      className="block text-lg font-semibold text-gray-700"
+                      htmlFor="propietario"
+                    >
+                      Propietario
+                    </label>
+                    <input
+                      type="text"
+                      name="Propietario"
+                      id="propietario"
+                      className="mt-1 focus:ring-miniazul focus:border-miniazul block w-full shadow-sm sm:text-base border-azulito rounded-md p-2"
+                      required
+                      onChange={formik.handleChange}
+                      value={formik.values.Propietario}
+                    />
+                    {formik.errors.Propietario && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formik.errors.Propietario}
+                      </p>
+                    )}
+                  </div>
+                  <br></br>
+                  <div className="mb-4">
+                    <label
+                      className="block text-lg font-semibold text-gray-700"
+                      htmlFor="marca"
+                    >
+                      Marca
+                    </label>
+                    <input
+                      type="text"
+                      name="Marca"
+                      id="marca"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md p-2"
+                      required
+                      onChange={formik.handleChange}
+                      value={formik.values.Marca}
+                    />
+                    {formik.errors.Marca && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formik.errors.Marca}
+                      </p>
+                    )}
+                  </div>
+                  <br></br>
+
+                  <div>
+                    <label
+                      className="block text-lg font-semibold text-gray-700"
+                      htmlFor="modelo"
+                    >
+                      Modelo
+                    </label>
+                    <input
+                      type="text"
+                      name="Modelo"
+                      id="modelo"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md p-2"
+                      required
+                      onChange={formik.handleChange}
+                      value={formik.values.Modelo}
+                    />
+                    {formik.errors.Modelo && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formik.errors.Modelo}
+                      </p>
+                    )}
+                  </div>
+                  <br></br>
+
+                  <div>
+                    <label
+                      className="block text-lg font-semibold text-gray-700"
+                      htmlFor="placas"
+                    >
+                      Placas
+                    </label>
+                    <input
+                      type="text"
+                      name="Placas"
+                      id="placas"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md p-2"
+                      required
+                      onChange={formik.handleChange}
+                      value={formik.values.Placas}
+                    />
+                    {formik.errors.Placas && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formik.errors.Placas}
+                      </p>
+                    )}
+                  </div>
+                  <br></br>
+
+                  <div>
+                    <label
+                      className="block text-lg font-semibold text-gray-700"
                       htmlFor="tipoTrabajo"
                     >
                       Tipo
@@ -176,68 +219,73 @@ function Agregar() {
                     <select
                       id="tipoTrabajo"
                       name="tipoTrabajo"
-                      className="border-2 border-blue-950 rounded-lg py-2 px-2"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md p-2"
                       required
                       onChange={formik.handleChange}
                       value={formik.values.tipoTrabajo}
                     >
                       <option
                         value=""
-                        className="font-semibold text-gray-700 text-md"
+                        className="font-bold text-gray-700 text-md"
                       >
                         Seleccionar tipo de trabajo
                       </option>
-                      <option
-                        value="Reparación mecánica"
-                        className="font-semibold text-gray-700 text-md"
-                      >
-                        Reparación mecánica
-                      </option>
-                      <option
-                        value="Reparación de chapa y pintura"
-                        className="font-semibold text-gray-700 text-md"
-                      >
-                        Reparación de chapa y pintura
-                      </option>
-                      <option
-                        value="Revisión"
-                        className="font-semibold text-gray-700 text-md"
-                      >
-                        Revisión
-                      </option>
+                      {tipoTrabajoOptions.map((tipo, index) => (
+                        <option
+                          key={index}
+                          value={tipo}
+                          className="font-medium text-gray-700 text-md"
+                        >
+                          {tipo}
+                        </option>
+                      ))}
                     </select>
                   </div>
-                </div>
+                  <br></br>
+
+                  <div>
+                    <label
+                      className="block text-lg font-semibold text-gray-700"
+                      htmlFor="descripcion"
+                    >
+                      Descripción
+                    </label>
+                    <textarea
+                      id="Descripcion"
+                      name="descripcion"
+                      className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md p-2"
+                      required
+                      maxLength={500}
+                      onChange={formik.handleChange}
+                      value={formik.values.descripcion}
+                    ></textarea>
+                    {formik.errors.descripcion && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formik.errors.descripcion}
+                      </p>
+                    )}
+                  </div>
+
+                  <br></br>
+
+                  <div className="flex items-center justify-center">
+                    <button
+                      className="bg-azulito hover:bg-blue-800 text-white text-lg font-semibold mb-4 p-3 px-4 rounded-lg flex items-center"
+                      type="submit"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <FaSpinner className="animate-spin mr-2" />
+                      ) : (
+                        <span>Agregar Servicio</span>
+                      )}
+                    </button>
+                  </div>
+                </form>
               </div>
-              <div>
-                <label
-                  className="block text-gray-700 text-xl font-semibold mb-2"
-                  htmlFor="descripcion"
-                >
-                  Descripción
-                </label>
-                <textarea
-                  id="Descripcion"
-                  name="descripcion"
-                  className="border-2 border-blue-950 rounded-lg w-full py-1 px-2 mb-3"
-                  required
-                  maxLength={500}
-                  onChange={formik.handleChange}
-                  value={formik.values.descripcion}
-                ></textarea>
-              </div>
-              <div className="flex items-center justify-center">
-                <button
-                  className="bg-blue-950 hover:bg-orange-500 text-white text-2xl font-semibold p-3 px-4 rounded-lg"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Agregando..." : "Agregar Servicio"}
-                </button>
-              </div>
-            </form>
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </>
   );

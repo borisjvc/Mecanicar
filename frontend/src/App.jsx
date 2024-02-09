@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Registro from "./pages/admin/registro";
 import Servicios from "./pages/admin/servicios";
 import Usuarios from "./pages/admin/usuarios";
-
 import Inicio from "./pages/inicio";
 import Login from "./pages/Login";
 import Gestionar from "./pages/ServiciosPendientes";

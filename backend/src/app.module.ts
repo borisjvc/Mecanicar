@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsuariosController } from './Users/users.controller';
 import { UsuariosModule } from './Users/users.module';
-import { JwtAuthGuard } from './Auth/jwt-auth.guard';
-import { JwtService } from '@nestjs/jwt';
 import { VehiculoModule } from './Vehiculos/vehiculo.module';
 import { TrabajosModule } from './Trabajos/servicios.module';
+import { JwtAuthGuard } from './Auth/jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
+import { MaterialesModule } from './Materiales/materiales.module';
+import { CorreoController } from './correo/correo.controller';
 
 @Module({
   imports: [
@@ -18,8 +19,8 @@ import { TrabajosModule } from './Trabajos/servicios.module';
       database: 'mecanicar',
       entities: [__dirname + '/*/.entity{.ts,.js}'],
       synchronize: true
-    }), UsuariosModule, VehiculoModule, TrabajosModule],
-  controllers: [],
-  providers: [JwtService,JwtAuthGuard],
+    }), UsuariosModule, VehiculoModule, TrabajosModule, MaterialesModule],
+  controllers: [CorreoController],
+  providers: [JwtService, JwtAuthGuard],
 }) 
 export class AppModule { }

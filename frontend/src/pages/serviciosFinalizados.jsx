@@ -47,27 +47,44 @@ function Realizados() {
   return (
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
       <VerticalDashboard />
-      <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
-        <h1 className="text-4xl font-bold mb-8">
+
+      <main className="lg:col-span-3 xl:col-span-5 bg-gray-50 p-8 h-[100vh] overflow-y-scroll">
+        <h1 className="text-4xl font-sans font-bold mb-8">
           Servicios Finalizados de {nombre}
         </h1>
-
+        <br></br>
         {/* Section 2 */}
         <section className="grid grid-cols-1 md:grid-cols-1 mt-10 gap-8">
           <div>
             {/* Table */}
-            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
+            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col">
               <table className="w-full">
-                <thead className="bg-blue-500 text-white">
+                <thead className="bg-azulito text-white">
                   <tr>
-                    <th className="font-bold text-center py-2">Placas</th>
-                    <th className="font-bold text-center py-2">Modelo</th>
-                    <th className="font-bold text-center py-2">Marca</th>
-                    <th className="font-bold text-center py-2">Servicio</th>
-                    <th className="font-bold text-center py-2">Descripción</th>
-                    <th className="font-bold text-center py-2">Horas</th>
-                    <th className="font-bold text-center py-2">Importe</th>
-                    <th className="font-bold text-center py-2">Operación</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Placas
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Modelo
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Marca
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Servicio
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Descripción
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Horas
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Importe
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Operación
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -88,30 +105,29 @@ function Realizados() {
                       <td className="text-center py-2">
                         {trabajo.horasTrabajo}
                       </td>
-                      <td className="text-center py-2">
+                      <td className="text-center font-semibold py-2">
                         {trabajo.tipoTrabajoTexto === "Reparación mecánica" && (
                           <>
-                            {parseFloat(trabajo.costoMaterial) * 1.1 +
+                            $
+                            {(parseFloat(trabajo.costoMaterial) || 0) * 1.1 +
                               trabajo.horasTrabajo * 350}
                           </>
                         )}
                         {trabajo.tipoTrabajoTexto ===
                           "Reparación de chapa y pintura" && (
                           <>
-                            {parseFloat(trabajo.costoMaterial) * 1.3 +
+                            $
+                            {(parseFloat(trabajo.costoMaterial) || 0) * 1.3 +
                               trabajo.horasTrabajo * 350}
                           </>
                         )}
                         {trabajo.tipoTrabajoTexto === "Revisión" && (
-                          <>
-                            {trabajo.horasTrabajo * 350 +
-                              450}
-                          </>
+                          <>${trabajo.horasTrabajo * 350 + 450}</>
                         )}
                       </td>
                       <td className="text-center py-2">
                         <button
-                          className="bg-teal-500 hover:bg-teal-700 text-white px-4 py-2 rounded-md"
+                          className="bg-azulito hover:bg-blue-800 text-white px-4 py-2 rounded-md"
                           onClick={() => handleVisualizar(trabajo.idTrabajo)}
                         >
                           Detalles
@@ -131,16 +147,24 @@ function Realizados() {
               className="absolute w-full h-full bg-black bg-opacity-50 backdrop-blur-md"
               onClick={() => setTrabajoSeleccionado(null)}
             ></div>
-            <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold mb-4">Detalles del Trabajo</h2>
-              <p>Placas: {trabajoSeleccionado.placas}</p>
-              <p>Modelo: {trabajoSeleccionado.modelo}</p>
-              <p>Servicio: {trabajoSeleccionado.tipoTrabajoTexto}</p>
-              <p>
+            <div className="bg-white p-24 rounded-xl z-10">
+              <h2 className="text-3xl font-sans font-bold mb-8">
+                Detalles del Trabajo
+              </h2>
+              <p className="text-xl font-sans">
+                Placas: {trabajoSeleccionado.placas}
+              </p>
+              <p className="text-xl font-sans">
+                Modelo: {trabajoSeleccionado.modelo}
+              </p>
+              <p className="text-xl font-sans">
+                Servicio: {trabajoSeleccionado.tipoTrabajoTexto}
+              </p>
+              <p className="text-xl font-sans">
                 Descripción:{" "}
                 {expanded
                   ? trabajoSeleccionado.descripcion
-                  : trabajoSeleccionado.descripcion.slice(0, 55) + "..."}
+                  : trabajoSeleccionado.descripcion.slice(0, 55)}
               </p>
               {trabajoSeleccionado.descripcion.length > 55 && (
                 <button
@@ -153,31 +177,30 @@ function Realizados() {
               {/* Calcular el importe según el tipo de trabajo */}
               {trabajoSeleccionado.tipoTrabajoTexto ===
                 "Reparación mecánica" && (
-                <p>
-                  Importe:{" "}
-                  {parseFloat(trabajoSeleccionado.costoMaterial) * 1.1 +
+                <p className="text-xl font-sans">
+                  Importe: $
+                  {(parseFloat(trabajoSeleccionado.costoMaterial) || 0) * 1.1 +
                     trabajoSeleccionado.horasTrabajo * 350}
                 </p>
               )}
               {trabajoSeleccionado.tipoTrabajoTexto ===
                 "Reparación de chapa y pintura" && (
-                <p>
-                  Importe:{" "}
-                  {parseFloat(trabajoSeleccionado.costoMaterial) * 1.3 +
+                <p className="text-xl font-sans">
+                  Importe: $
+                  {(parseFloat(trabajoSeleccionado.costoMaterial) || 0) * 1.3 +
                     trabajoSeleccionado.horasTrabajo * 350}
                 </p>
               )}
               {trabajoSeleccionado.tipoTrabajoTexto === "Revisión" && (
-                <p>
-                  Importe:{" "}
-                  {parseFloat(trabajoSeleccionado.costoMaterial) +
-                    trabajoSeleccionado.horasTrabajo * 350 +
+                <p className="text-xl font-sans">
+                  Importe: $
+                  {trabajoSeleccionado.horasTrabajo * 350 +
                     450}
                 </p>
               )}
-
+              <br></br>
               <button
-                className="bg-rose-600 hover:bg-rose-800 text-white px-4 py-2 rounded-md mt-4"
+                className="bg-rojo hover:bg-red-800 text-white w-full px-6 py-2 rounded-md mt-4"
                 onClick={() => setTrabajoSeleccionado(null)}
               >
                 Cerrar

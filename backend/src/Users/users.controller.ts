@@ -65,9 +65,12 @@ export class UsuariosController {
 
     @Delete(':id')
     @UseGuards(JwtAuthGuard)
-    async eliminarUsuario(@Param('id') userID: number) {
-        const deleted = await this.usuariosService.eliminarUsuario(userID);
-        return deleted;
+    async eliminarUsuario(@Param('id') userID: number, @Request() req) {
+        if (req.user.id != userID) {
+            const deleted = await this.usuariosService.eliminarUsuario(userID);
+            return deleted;
+        }
+        return {message: "No puedes eliminarte a ti mismo"}
     }
 
     @Post('login')

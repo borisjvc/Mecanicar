@@ -200,13 +200,13 @@ export default function Login() {
                   className="absolute w-full h-full bg-black bg-opacity-50 backdrop-blur-md"
                   onClick={closeModal}
                 ></div>
-                <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
-                  <h2 className="text-2xl font-bold mb-4">Se envió un código de verificación a tu correo</h2>
+                <div className="bg-white p-20 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
+                  <h2 className="text-3xl font-sans font-bold mb-4">Se Envió un Código de Verificación a tu Correo</h2>
                   <form
                     className="flex flex-col p-16"
                     onSubmit={handleSubmitCodigo}
                   >
-                    <label className="font-bold mb-2">
+                    <label className="font-semibold text-lg mb-2">
                       Código de Verificación
                     </label>
                     <input
@@ -218,20 +218,24 @@ export default function Login() {
                       maxLength={6}
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
+<br></br>
+<div className="flex justify-between">
 
                     <button
                       type="submit"
-                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md mt-4"
+                      className="bg-azulito text-semibold hover:bg-blue-800 text-white px-20 py-3 rounded-md mt-4"
                     >
                       Verificar Código
                     </button>
-                  </form>
-                  <button
-                    className="px-16 py-2 bg-rose-600 hover:bg-rose-800 text-white rounded-lg cursor-pointer text-xl self-center "
+                    <button
+                    className="px-20 text-semibold py-3 mt-4  bg-rojo hover:bg-red-600 text-white rounded-lg cursor-pointer text-xl self-center "
                     onClick={closeModal}
                   >
                     Cerrar
                   </button>
+                  </div>
+                  </form>
+
                 </div>
               </div>
             )}

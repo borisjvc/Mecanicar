@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VerticalDashboard from "../components/dashboard";
 import { RiLineChartLine, RiHashtag } from "react-icons/ri";
+import { PiPlusBold, PiTrashBold, PiNotePencilBold } from "react-icons/pi";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -138,23 +139,23 @@ function Gestionar() {
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
       <VerticalDashboard />
       <main className="lg:col-span-3 xl:col-span-5 bg-gray-50 p-8 h-[100vh] overflow-y-scroll">
-        <h1 className="text-4xl font-bold mb-8 text-gray-800">
-          Servicios pendientes de {nombre}
+        <h1 className="text-4xl font-bold font-sans mb-8 text-gray-800">
+          Servicios Pendientes de {nombre}
         </h1>
 
         <section className="grid grid-cols-1 md:grid-cols-1 mt-10 gap-8">
           <div>
             <div className="bg-white p-8 rounded-xl shadow-md mb-8 flex flex-col gap-8">
               <table className="w-full">
-                <thead className="bg-blue-500 text-white">
+                <thead className="bg-azulito text-white">
                   <tr>
-                    <th className="font-bold text-center py-2">Placas</th>
-                    <th className="font-bold text-center py-2">Modelo</th>
-                    <th className="font-bold text-center py-2">Marca</th>
-                    <th className="font-bold text-center py-2">Servicio</th>
-                    <th className="font-bold text-center py-2">Descripción</th>
-                    <th className="font-bold text-center py-2">Horas</th>
-                    <th className="font-bold text-center py-2">Operaciones</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Placas</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Modelo</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Marca</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Servicio</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Descripción</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Horas</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">Operaciones</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,26 +176,31 @@ function Gestionar() {
                       <td className="text-center py-2">
                         {trabajo.horasTrabajo}
                       </td>
-                      <td className="text-center py-2">
+
+
+                      <td className="text-center py-3">
+                      <div className="flex space-x-4 justify-center">
+
                         <button
-                          className="bg-sky-600 hover:bg-sky-800 text-white px-4 py-2 rounded-md"
+                          className="bg-verde hover:bg-green-500 flex items-center gap-4 text-white px-4 py-2 rounded-md transition-all"
                           onClick={() => handleEditar(trabajo.idTrabajo)}
                         >
-                          Editar
+<PiNotePencilBold /> Editar
                         </button>
                         <button
-                          className="bg-teal-500 hover:bg-teal-700 text-white px-4 py-2 rounded-md ml-6"
+                          className="bg-azulito hover:bg-blue-800 flex items-center gap-4 text-white px-4 py-2 rounded-md transition-all"
                           onClick={() => handleVisualizar(trabajo.idTrabajo)}
                         >
                           Detalles
                         </button>
 
                         <button
-                          className="bg-indigo-500 hover:bg-indigo-700 text-white px-4 py-2 rounded-md ml-6"
+                          className="bg-purple-800 hover:bg-purple-400 flex items-center gap-4 text-white px-4 py-2 rounded-md transition-all"
                           onClick={() => handleFinalizar(trabajo.idTrabajo)}
                         >
                           Marcar como finalizado
                         </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -204,17 +210,19 @@ function Gestionar() {
           </div>
         </section>
         {trabajoSeleccionado && (
+
+
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
             <div
               className="absolute w-full h-full bg-black bg-opacity-50 backdrop-blur-md"
               onClick={() => setTrabajoSeleccionado(null)}
             ></div>
-            <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold mb-4">Detalles del Trabajo</h2>
-              <p>Placas: {trabajoSeleccionado.placas}</p>
-              <p>Modelo: {trabajoSeleccionado.modelo}</p>
-              <p>Servicio: {trabajoSeleccionado.tipoTrabajoTexto}</p>
-              <p>
+            <div className="bg-white p-24 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
+              <h2 className="text-3xl font-sans font-bold mb-8">Detalles del Trabajo</h2>
+              <p className="text-xl font-sans">Placas: {trabajoSeleccionado.placas}</p>
+              <p className="text-xl font-sans">Modelo: {trabajoSeleccionado.modelo}</p>
+              <p className="text-xl font-sans">Servicio: {trabajoSeleccionado.tipoTrabajoTexto}</p>
+              <p className="text-xl font-sans">
                 Descripción:{" "}
                 {expanded
                   ? trabajoSeleccionado.descripcion
@@ -222,7 +230,7 @@ function Gestionar() {
               </p>
               {trabajoSeleccionado.descripcion.length > 55 && (
                 <button
-                  className="text-blue-500 underline"
+                  className="text-azulito underline"
                   onClick={() => setExpanded(!expanded)}
                 >
                   {expanded ? "Mostrar menos" : "Mostrar más"}
@@ -231,31 +239,30 @@ function Gestionar() {
               {/* Calcular el importe según el tipo de trabajo */}
               {trabajoSeleccionado.tipoTrabajoTexto ===
                 "Reparación mecánica" && (
-                <p>
-                  Importe:{" "}
-                  {parseFloat(trabajoSeleccionado.costoMaterial) * 1.1 +
+                <p className="text-xl font-sans">
+                  Importe:${" "}
+                  {(parseFloat(trabajoSeleccionado.costoMaterial) || 0) * 1.1 +
                     trabajoSeleccionado.horasTrabajo * 350}
                 </p>
               )}
               {trabajoSeleccionado.tipoTrabajoTexto ===
                 "Reparación de chapa y pintura" && (
-                <p>
-                  Importe:{" "}
-                  {parseFloat(trabajoSeleccionado.costoMaterial) * 1.3 +
+                <p className="text-xl font-sans">
+                  Importe:${" "}
+                  {(parseFloat(trabajoSeleccionado.costoMaterial) || 0) * 1.3 +
                     trabajoSeleccionado.horasTrabajo * 350}
                 </p>
               )}
               {trabajoSeleccionado.tipoTrabajoTexto === "Revisión" && (
-                <p>
-                  Importe:{" "}
-                  {parseFloat(trabajoSeleccionado.costoMaterial) +
-                    trabajoSeleccionado.horasTrabajo * 350 +
+                <p className="text-xl font-sans">
+                  Importe:${" "}
+                  {trabajoSeleccionado.horasTrabajo * 350 +
                     450}
                 </p>
               )}
-
+<br></br>
               <button
-                className="bg-rose-600 hover:bg-rose-800 text-white px-4 py-2 rounded-md mt-4"
+                className="bg-rojo hover:bg-red-800 text-white w-full px-6 py-2 rounded-md mt-4"
                 onClick={() => setTrabajoSeleccionado(null)}
               >
                 Cerrar
@@ -265,6 +272,9 @@ function Gestionar() {
         )}
 
         {modalVisible && (
+
+
+
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
             {/* Fondo oscuro del modal */}
             <div
@@ -272,13 +282,14 @@ function Gestionar() {
               onClick={handleCloseModal}
             ></div>
             {/* Contenido del modal */}
-            <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
-              <h2 className="text-2xl font-bold mb-4">
-                Agregar horas/material
+            <div className="bg-white p-20 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
+              <h2 className="text-4xl font-sans text-center font-bold mb-4">
+                Agregar Horas/Material
               </h2>
+              <br></br>
               <form>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                  <label className="block text-lg font-semibold mb-2">
                     Horas (opcional)
                   </label>
                   <input
@@ -291,7 +302,7 @@ function Gestionar() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="block text-lg font-semibold mb-2">
                     Material (opcional)
                   </label>
                   <input
@@ -304,7 +315,7 @@ function Gestionar() {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="block text-lg font-semibold mb-2">
                     Precio Material (opcional)
                   </label>
                   <input
@@ -316,20 +327,21 @@ function Gestionar() {
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>
-                <p className="text-gray-500 text-sm mb-4">
+                <p className="text-gray-500 text-base mb-4">
                   Nota: Puedes dejar los campos en blanco si no deseas
                   agregar esa información.
                 </p>
+                <br></br>
                 <button
                   type="button"
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md mt-4"
+                  className="bg-azulito font-semibold hover:bg-blue-800 text-white px-24 py-2 rounded-md mt-4"
                   onClick={handleGuardarCambios}
                 >
                   Guardar Cambios
                 </button>
                 <button
                   type="button"
-                  className="bg-rose-600 hover:bg-rose-800 text-white px-4 py-2 rounded-md mt-4 ml-4"
+                  className="bg-rojo hover:bg-red-800 font-semibold text-white px-20 py-2 rounded-md mt-4 ml-4"
                   onClick={handleCloseModal}
                 >
                   Cancelar

@@ -6,7 +6,7 @@ function Editar() {
         <>
             <div className='flex flex-grow h-screen'>
                 <VerticalDashboard />
-                <h1 className=' p-20 font-semibold text-4xl'>Editar Servicio</h1>
+                <h1 className=' p-20 font-sans font-bold text-4xl'>Editar Servicio</h1>
                 <div className=' flex items-center'>
                     <form class=" w-[800px] h-[600px]">
                         <div class="mb-4">

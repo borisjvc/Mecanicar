@@ -13,8 +13,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-//TODO: Recuperacion de contraseña
-//TODO: Perfil usuario
 const VerticalDashboard = () => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
@@ -42,12 +40,6 @@ const VerticalDashboard = () => {
         {/* Nav */}
         <div className="bg-azulito p-8  h-[70vh]  flex flex-col justify-between gap-8">
           <nav className="flex flex-col gap-8">
-          <a
-              href="/perfil"
-              className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"
-            >
-              <PiUserBold/> Perfil
-            </a>
             <a
               href="/inicio"
               className="flex items-center gap-4 text-white py-2 px-4 rounded-xl hover:bg-primary-900/50 transition-colors"

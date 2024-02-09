@@ -1,7 +1,6 @@
 import VerticalDashboard from "../../components/dashboard";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { PiPlusBold } from "react-icons/pi";
+import { PiPlusBold, PiTrashBold, PiNotePencilBold } from "react-icons/pi";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -18,6 +17,8 @@ export default function Usuarios() {
     Passwrd: "",
     Rol: "Mecanico",
   });
+  const regex = /^(?!\s)(?!.*\s{2,})[\w ]+$/;
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
   const fetchUsuarios = async () => {
     try {
@@ -28,7 +29,7 @@ export default function Usuarios() {
       });
       //filtrar para solo mostrar usuarios que no hayan sido eliminados
       const usuariosFiltrados = response.data.filter(
-        (users) => users.activo === 1
+        (users) => users.activo === 1 && users.idUsuario != 1
       );
       setUsuarios(usuariosFiltrados);
     } catch (error) {
@@ -50,12 +51,16 @@ export default function Usuarios() {
 
   const handleRegistro = async (e) => {
     e.preventDefault();
+    
+    
     if (
-      !formRegistro.Name ||
-      !formRegistro.Apellido ||
-      !formRegistro.Email ||
+      !regex.test(formRegistro.Name) ||
+      !regex.test(formRegistro.Apellido) ||
+      !emailRegex.test(formRegistro.Email) ||
       !formRegistro.Passwrd
     ) {
+      window.confirm("Error: Los campos no cumplen con el formato requerido.");
+      console.error("Error: Los campos no cumplen con el formato requerido.");
       return;
     }
 
@@ -99,19 +104,24 @@ export default function Usuarios() {
   };
 
   const handleEliminar = async (userId) => {
-    try {
-      const response = await axios.delete(
-        `https://localhost:3001/usuarios/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      );
-      console.log(response.data.message);
-      fetchUsuarios();
-    } catch (error) {
-      console.error("Error al eliminar usuario: ", error);
+    const resultado = window.confirm(
+      "¿Estás seguro que quieres eliminar este usuario? No se podrá revertir esta acción"
+    );
+    if (resultado) {
+      try {
+        const response = await axios.delete(
+          `https://localhost:3001/usuarios/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+            },
+          }
+        );
+        console.log(response.data.message);
+        fetchUsuarios();
+      } catch (error) {
+        console.error("Error al eliminar usuario: ", error);
+      }
     }
   };
 
@@ -119,7 +129,7 @@ export default function Usuarios() {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
-      [name]: value,
+      [name]: value.trim(),
     });
   };
 
@@ -127,21 +137,21 @@ export default function Usuarios() {
     const { name, value } = e.target;
     setFormRegistro({
       ...formRegistro,
-      [name]: value,
+      [name]: value.trim(),
     });
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const mappedRolValue =
-      formValues.Rol === "Mecanico" || formValues.Rol === "Mecánico" ? 0 : 1;
+    const mappedRolValue = formValues.Rol === "Mecanico" || formValues.Rol === "Mecánico" ? 0 : 1;
     if (
-      !formValues.Name ||
-      !formValues.Apellido ||
-      !formValues.Email ||
+      !regex.test(formValues.Name) ||
+      !regex.test(formValues.Apellido) ||
+      !emailRegex.test(formValues.Email) ||
       !formValues.Passwrd
     ) {
-      console.error("Formulario incompleto");
+      window.confirm("Error: Los campos no cumplen con el formato requerido.");
+      console.error("Error: Los campos no cumplen con el formato requerido.");
       return;
     }
 
@@ -182,32 +192,49 @@ export default function Usuarios() {
   return (
     <div className="grid lg:grid-cols-4 xl:grid-cols-6 min-h-screen">
       <VerticalDashboard />
-      <main className="lg:col-span-3 xl:col-span-5 bg-gray-100 p-8 h-[100vh] overflow-y-scroll">
-        <h1 className="text-4xl font-bold mb-8">Gestión de usuarios</h1>
+      <main className="lg:col-span-3 xl:col-span-5 bg-gray-50 p-8 h-[100vh] overflow-y-scroll">
+        <h1 className="text-4xl font-sans font-bold mb-8">
+          Gestión de usuarios
+        </h1>
 
-        {/* Section 2 */}
         <section className="grid grid-cols-1 md:grid-cols-1 mt-10 gap-8">
           <div>
-            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mb-4 flex items-center" onClick={() => setShowModalReg(true)}>
+            <h1 className="text-xl font-bold mb-4">Más Opciones:</h1>
+
+            <button
+              className="bg-azulito hover:bg-blue-800 text-white font-semibold px-4 py-2 rounded-lg mb-4 flex items-center"
+              onClick={() => setShowModalReg(true)}
+            >
               <PiPlusBold className="mr-2" /> Crear nuevo usuario
             </button>
+            <br></br>
             {/* Table */}
-            <div className="bg-slate-200 p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
-              <table className="w-full border-collapse">
-                <thead className="bg-blue-500 text-white">
+            <div className="bg-white p-8 rounded-xl shadow-2xl mb-8 flex flex-col gap-8">
+              <table className="w-full">
+                <thead>
                   <tr>
-                    <th className="font-bold text-center py-2">Nombre</th>
-                    <th className="font-bold text-center py-2">Apellido</th>
-                    <th className="font-bold text-center py-2">Correo</th>
-                    <th className="font-bold text-center py-2">Rol</th>
-                    <th className="font-bold text-center py-2">Acciones</th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Nombre
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Apellido
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Correo
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Rol
+                    </th>
+                    <th className="font-bold font-sans text-lg text-center py-2">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {usuarios.map((usuario) => (
                     <tr
                       key={usuario.idUsuario}
-                      className="hover:bg-blue-200  transition-all"
+                      className="hover:bg-miniazul rounded-md transition duration-300 ease-in-out"
                     >
                       <td className="text-center py-3">{usuario.nombre}</td>
                       <td className="text-center py-3">{usuario.apellido}</td>
@@ -215,19 +242,21 @@ export default function Usuarios() {
                       <td className="text-center py-3">
                         {getRolTexto(usuario.rol)}
                       </td>
-                      <td className="text-center py-3 space-x-2">
-                        <button
-                          className="bg-sky-600 hover:bg-sky-800 text-white px-4 py-2 rounded-md transition-all"
-                          onClick={() => handleEditar(usuario.idUsuario)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          className="bg-rose-600 hover:bg-rose-800 text-white px-4 py-2 rounded-md transition-all"
-                          onClick={() => handleEliminar(usuario.idUsuario)}
-                        >
-                          Eliminar
-                        </button>
+                      <td className="text-center py-3">
+                        <div className="flex space-x-4 justify-center">
+                          <button
+                            className="bg-verde hover:bg-green-800 flex items-center gap-4 text-white px-4 py-2 rounded-md transition-all"
+                            onClick={() => handleEditar(usuario.idUsuario)}
+                          >
+                            <PiNotePencilBold /> Editar
+                          </button>
+                          <button
+                            className="bg-rojo hover:bg-red-800 flex items-center gap-4 text-white px-3 py-2 rounded-md transition-all"
+                            onClick={() => handleEliminar(usuario.idUsuario)}
+                          >
+                            <PiTrashBold /> Eliminar
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -244,14 +273,16 @@ export default function Usuarios() {
             className="absolute w-full h-full bg-black bg-opacity-50 backdrop-blur-md"
             onClick={closeModalEdit}
           ></div>
-          <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-4">
-              Modificar datos del usuario
+          <div className="bg-white p-24 rounded-xl z-10 overflow-y-auto">
+            <h2 className="text-4xl text-center font-sans font-bold leading-8 mb-4">
+              Modificar Datos del Usuario
             </h2>
-            <form className="flex flex-col p-16 mx-8" onSubmit={handleUpdate}>
-              <label className="font-bold mb-2">Nombre</label>
+            <br></br>
+
+            <form className="flex flex-col" onSubmit={handleUpdate}>
+              <label className="font-semibold text-lg mb-2">Nombre</label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="text"
                 id="Name"
                 name="Name"
@@ -260,9 +291,10 @@ export default function Usuarios() {
                 onChange={handleInputChange}
                 value={formValues.Name}
               />
-              <label className="font-bold mb-2">Apellidos</label>
+
+              <label className="font-semibold text-lg mb-2">Apellidos</label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="text"
                 id="Apellido"
                 name="Apellido"
@@ -272,9 +304,11 @@ export default function Usuarios() {
                 value={formValues.Apellido}
               />
 
-              <label className="font-bold mb-2">Correo electrónico</label>
+              <label className="font-semibold text-lg mb-2">
+                Correo electrónico
+              </label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="email"
                 id="Email"
                 name="Email"
@@ -284,24 +318,25 @@ export default function Usuarios() {
                 value={formValues.Email}
               />
 
-              <label className="font-bold mb-2" htmlFor="password">
+              <label className="font-semibold text-lg mb-2" htmlFor="password">
                 Contraseña
               </label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="password"
                 id="Passwrd"
                 name="Passwrd"
-                placeholder="*********"
                 minLength={8}
                 onChange={handleInputChange}
                 value={formValues.Passwrd}
                 required
               />
 
-              <label className="font-bold mb-2">Tipo de usuario</label>
+              <label className="font-semibold text-lg mb-2">
+                Tipo de usuario
+              </label>
               <select
-                className="px-4 py-2 border-2 rounded-lg mb-8 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 name="Rol"
                 id="Rol"
                 onChange={handleInputChange}
@@ -311,19 +346,23 @@ export default function Usuarios() {
                 <option value="Administrador">Administrador</option>
               </select>
 
-              <button
-                className="px-16 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-xl self-center"
-                type="submit"
-              >
-                Enviar cambios
-              </button>
+              <br></br>
+              <br></br>
+              <div className="flex justify-between">
+                <button
+                  className="px-20 py-2 bg-azulito hover:bg-blue-800 text-white rounded-lg cursor-pointer font-semibold mb-4 text-base"
+                  type="submit"
+                >
+                  Enviar cambios
+                </button>
+                <button
+                  className="px-16 py-2 bg-rojo hover:bg-red-800 text-white rounded-lg cursor-pointer font-semibold mb-4 text-base"
+                  onClick={closeModalEdit}
+                >
+                  Cerrar
+                </button>
+              </div>
             </form>
-            <button
-              className="px-16 py-2 bg-rose-600 hover:bg-rose-800 text-white rounded-lg cursor-pointer text-xl self-center "
-              onClick={closeModalEdit}
-            >
-              Cerrar
-            </button>
           </div>
         </div>
       )}
@@ -334,17 +373,17 @@ export default function Usuarios() {
             className="absolute w-full h-full bg-black bg-opacity-50 backdrop-blur-md"
             onClick={closeModalReg}
           ></div>
-          <div className="bg-white p-8 rounded-xl z-10 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-4">
-              Registrar nuevo usuario
+
+          <div className="bg-white p-24 rounded-xl z-10 overflow-y-auto">
+            <h2 className="text-4xl text-center font-sans font-bold leading-8 text-gray-900 mb-8">
+              Agrega los Datos del Nuevo Usuario
             </h2>
-            <form
-              className="flex flex-col p-16"
-              onSubmit={handleRegistro}
-            >
-              <label className="font-bold mb-2">Nombre</label>
+            <br></br>
+
+            <form className="flex flex-col" onSubmit={handleRegistro}>
+              <label className="font-semibold text-lg mb-2">Nombre</label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="text"
                 id="Name"
                 name="Name"
@@ -352,9 +391,11 @@ export default function Usuarios() {
                 required
                 onChange={handleInput}
               />
-              <label className="font-bold mb-2">Apellidos</label>
+              
+
+              <label className="font-semibold text-lg mb-2">Apellido</label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="text"
                 id="Apellido"
                 name="Apellido"
@@ -363,9 +404,11 @@ export default function Usuarios() {
                 onChange={handleInput}
               />
 
-              <label className="font-bold mb-2">Correo electrónico</label>
+              <label className="font-semibold text-lg mb-2">
+                Correo electrónico
+              </label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="email"
                 id="Email"
                 name="Email"
@@ -374,11 +417,11 @@ export default function Usuarios() {
                 onChange={handleInput}
               />
 
-              <label className="font-bold mb-2" htmlFor="password">
+              <label className="font-semibold text-lg mb-2" htmlFor="password">
                 Contraseña
               </label>
               <input
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-900"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 type="password"
                 id="Passwrd"
                 name="Passwrd"
@@ -387,9 +430,11 @@ export default function Usuarios() {
                 required
               />
 
-              <label className="font-bold mb-2">Tipo de usuario</label>
+              <label className="font-semibold text-lg mb-2">
+                Tipo de usuario
+              </label>
               <select
-                className="px-4 py-2 border-2 rounded-lg mb-4 border-blue-950"
+                className="px-4 py-2 border-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-azulito focus:border-transparent"
                 name="Rol"
                 id="Rol"
                 onChange={handleInput}
@@ -397,20 +442,24 @@ export default function Usuarios() {
                 <option value="Mecanico">Mecánico</option>
                 <option value="Administrador">Administrador</option>
               </select>
+              <br></br>
+              <br></br>
 
-              <button
-                className="px-16 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-xl self-center "
-                type="submit"
-              >
-                Registrar usuario
-              </button>
+              <div className="flex justify-between">
+                <button
+                  className="px-28 py-2 bg-azulito hover:bg-blue-800 text-white rounded-lg cursor-pointer font-semibold mb-4 text-base"
+                  type="submit"
+                >
+                  Registrar Usuario
+                </button>
+                <button
+                  className="px-24 py-2 bg-rojo hover:bg-red-800 text-white rounded-lg cursor-pointer font-semibold mb-4 text-base"
+                  onClick={closeModalReg}
+                >
+                  Cerrar
+                </button>
+              </div>
             </form>
-            <button
-              className="px-16 py-2 bg-rose-600 hover:bg-rose-800 text-white rounded-lg cursor-pointer text-xl self-center "
-              onClick={closeModalReg}
-            >
-              Cerrar
-            </button>
           </div>
         </div>
       )}
